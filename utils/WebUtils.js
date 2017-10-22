@@ -22,10 +22,10 @@ export default class WebUtils {
             if (response.ok) {
                 return response.json();
             } else {
-                return Promise.reject("网络错误！");
+                return Promise.reject({code: "网络错误！", message: "网络错误！"});
             }
         }).catch((error) => {
-            return Promise.reject("网络错误！")
+            return Promise.reject({code: "网络错误！", message: "网络错误！"})
         });
     }
 
@@ -50,10 +50,10 @@ export default class WebUtils {
             if (response.ok) {
                 return response.json();
             } else {
-                return Promise.reject("网络错误！");
+                return Promise.reject({code: "网络错误！", message: "网络错误！"});
             }
         }).catch((error) => {
-            return Promise.reject("网络错误！")
+            return Promise.reject({code: "网络错误！", message: "网络错误！"})
         });
     }
 
@@ -74,10 +74,10 @@ export default class WebUtils {
             if (response.ok) {
                 return response.json();
             } else {
-                return Promise.reject("网络错误！");
+                return Promise.reject({code: "网络错误！", message: "网络错误！"});
             }
         }).catch((error) => {
-            return Promise.reject("网络错误！")
+            return Promise.reject({code: "网络错误！", message: "网络错误！"});
         });
     }
 }

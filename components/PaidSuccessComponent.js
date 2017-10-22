@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import WebUtils from "../utils/WebUtils";
 import CacheUtils from "../utils/CacheUtils";
+import CommonUtils from "../utils/CommonUtils";
 import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
 
 var window = Dimensions.get("window");
@@ -20,8 +21,12 @@ var width = window.width;
 var height = window.height;
 export default class PaidSuccessComponent extends Component {
     handlePaidButtonOnPress() {
-        // NativeModules["CustomNativeModule"]["login"]("61011888", "e10adc3949ba59abbe56e057f20f883e");
-        this["props"]["navigator"].pop();
+        NativeModules["CustomNativeModule"]["login"]("61011888", "e10adc3949ba59abbe56e057f20f883e").then((result) => {
+            return CommonUtils.reject("你好")
+        }).catch((error) => {
+            alert(error["code"])
+        })
+        // this["props"]["navigator"].pop();
         /*CacheUtils.findUserInfo().then((userInfo) => {
             return NativeModules["AlipayNativeModule"]["sendPayRequest"](JSON.stringify(userInfo));
         }).then((result) => {
