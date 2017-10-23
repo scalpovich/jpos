@@ -56,6 +56,10 @@ export default class PaidSuccessComponent extends Component {
         NativeModules["CustomNativeModule"]["stopOrderService"]();
     }
 
+    startScanCodeActivity() {
+        NativeModules["CustomNativeModule"]["startScanCodeActivity"]();
+    }
+
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
@@ -69,6 +73,10 @@ export default class PaidSuccessComponent extends Component {
 
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.stopOrderService.bind(this)}>
                     <Text style={{color: "#FFFFFF"}}>停止订单服务</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.startScanCodeActivity.bind(this)}>
+                    <Text style={{color: "#FFFFFF"}}>打开扫码页面</Text>
                 </TouchableOpacity>
 
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
