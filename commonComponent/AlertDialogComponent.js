@@ -35,7 +35,7 @@ export default class AlertDialogComponent extends Component {
                 alignItems: "center", justifyContent: "center", borderBottomWidth: 1}}>
                 <TouchableOpacity style={{width: width - 80, height: 40, borderBottomRightRadius: 10, borderBottomLeftRadius: 10, alignItems: "center", justifyContent: "center"}}
                                   onPress={this.hide.bind(this)}>
-                    <Text style={{color: "#00AAEE", fontSize: 18}}>确定</Text>
+                    <Text style={{color: "#0074FA", fontSize: 18}}>确定</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -48,13 +48,13 @@ export default class AlertDialogComponent extends Component {
                     bottom: 0, borderBottomLeftRadius: 10,
                     alignItems: "center", justifyContent: "center", left: 0}}
                                   onPress={this.hide.bind(this)} key="a">
-                    <Text style={{color: "#00AAEE", fontSize: 18}}>确定</Text>
+                    <Text style={{color: "#0074FA", fontSize: 18}}>确定</Text>
                 </TouchableOpacity>,
                 <TouchableOpacity style={{width: (width - 80) / 2, position: "absolute", height: 40, backgroundColor: "#FFFFFF",
                     bottom: 0, borderBottomRightRadius: 10,
                     alignItems: "center", justifyContent: "center", right: 0}}
                                   onPress={this.hide.bind(this)} key="b">
-                    <Text style={{color: "#00AAEE", fontSize: 18}}>取消</Text>
+                    <Text style={{color: "#0074FA", fontSize: 18}}>取消</Text>
                 </TouchableOpacity>
             ]
         );

@@ -31,6 +31,10 @@ export default class TestComponent extends Component {
     }
 
     closeShoppingCart() {
+        Animated.timing(
+            this.state.height,
+            {toValue: 0}
+        ).start();
         this.setState({visible: false, height: new Animated.Value(0)});
     }
 

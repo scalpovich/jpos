@@ -20,7 +20,12 @@ import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
 var window = Dimensions.get("window");
 var width = window.width;
 var height = window.height;
+var weiXinPayResponseListener = null;
 export default class PaidSuccessComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     handlePaidButtonOnPress() {
         /*NativeModules["CustomNativeModule"]["login"]("61011888", "e10adc3949ba59abbe56e057f20f883e").then((result) => {
             return CommonUtils.reject("你好")
@@ -41,12 +46,31 @@ export default class PaidSuccessComponent extends Component {
         // this["refs"]["alertDialogComponent"]["alert"]();
     }
 
+    startOrderService() {
+        NativeModules["CustomNativeModule"]["startOrderService"]();
+        CommonUtils.addListener();
+    }
+
+    stopOrderService() {
+        CommonUtils.removeListener();
+        NativeModules["CustomNativeModule"]["stopOrderService"]();
+    }
+
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
                     <Text style={{color: "#FFFFFF"}}>回到支付页面</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.startOrderService.bind(this)}>
+                    <Text style={{color: "#FFFFFF"}}>启动订单服务</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.stopOrderService.bind(this)}>
+                    <Text style={{color: "#FFFFFF"}}>停止订单服务</Text>
+                </TouchableOpacity>
+
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
             </View>
         );
