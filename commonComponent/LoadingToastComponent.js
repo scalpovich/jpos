@@ -12,7 +12,7 @@ import {
 
 var window = Dimensions.get("window");
 var width = window.width;
-var left = (width - 120) / 2;
+var left = (width - 160) / 2;
 
 export default class LoadingToastComponent extends Component {
     constructor(props) {
@@ -29,23 +29,25 @@ export default class LoadingToastComponent extends Component {
         this.setState(state);
     }
 
+    hide() {
+        this.setState({left: 20000});
+    }
+
     render() {
         return (
-            <View style={[styles.loadingToastPanel, styles.justifyContentCenter, styles.alignItemsCenter, {opacity: 0.9, left: this.state.left}]}>
+            <View style={[styles.loadingToastPanel, styles.justifyContentCenter, styles.alignItemsCenter, {opacity: 0.9, left: this.state.left, flexDirection: "row"}]}>
                 <ActivityIndicator color="#FFFFFF" size={30}></ActivityIndicator>
-                <View>
-                    <Text style={{color: "#FFFFFF"}}>{this.state.text}</Text>
-                </View>
+                <Text style={{color: "#FFFFFF", marginLeft: 10}}>{this.state.text}</Text>
             </View>
         );
     }
 }
 const styles = StyleSheet.create({
     loadingToastPanel: {
-        width: 120,
-        height: 120,
+        width: 160,
+        height: 60,
         position: "absolute",
-        backgroundColor: "#656565",
+        backgroundColor: "#3A444E",
         borderRadius: 4
     },
     justifyContentCenter: {

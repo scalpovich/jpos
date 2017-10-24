@@ -16,6 +16,7 @@ import CacheUtils from "../utils/CacheUtils";
 import CommonUtils from "../utils/CommonUtils";
 import TestComponent from "./TestComponent";
 import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
+import LoadingToastComponent from "../commonComponent/LoadingToastComponent";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -60,6 +61,8 @@ export default class PaidSuccessComponent extends Component {
     }
 
     handleAlipayButtonOnPress() {
+        this["refs"]["loadingToastComponent"]["show"]("加载中...");
+        return;
         CacheUtils.findUserInfo().then((userInfo) => {
             let alipayTradeAppPayRequestParameters = {
                 tenantId: 3,
@@ -82,6 +85,7 @@ export default class PaidSuccessComponent extends Component {
             if (!sendPayRequestResult) {
                 return CommonUtils.reject("支付失败！");
             }
+            this["refs"]["loadingToastComponent"]["hide"]();
             var alipayResponseListener = DeviceEventEmitter.addListener("Alipay_Resp", (resp) => {
                 console.log("*************************************************************" + JSON.stringify(resp));
                 let resultStatus = resp["resultStatus"];
@@ -93,8 +97,9 @@ export default class PaidSuccessComponent extends Component {
                 alipayResponseListener.remove();
             });
         }).catch((error) => {
-            alert(JSON.stringify(error))
-        })
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        });
     }
 
     render() {
@@ -121,6 +126,7 @@ export default class PaidSuccessComponent extends Component {
                 </TouchableOpacity>
 
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
+                <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
             </View>
         );
     }
