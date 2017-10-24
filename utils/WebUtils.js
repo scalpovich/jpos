@@ -69,7 +69,29 @@ export default class WebUtils {
             }
             url = url + "?" + requestParameterPairs.join("&");
         }
-        console.log(url)
+        return fetch(url, options).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return Promise.reject({code: "网络错误！", message: "网络错误！"});
+            }
+        }).catch((error) => {
+            return Promise.reject({code: "网络错误！", message: "网络错误！"});
+        });
+    }
+
+    static doPost(url, requestParameters) {
+        var options = {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"}
+        };
+        if (requestParameters) {
+            var requestParameterPairs = [];
+            for (var key in requestParameters) {
+                requestParameterPairs.push(key + "=" + requestParameters[key]);
+            }
+            options["body"] = requestParameterPairs.join("&");
+        }
         return fetch(url, options).then((response) => {
             if (response.ok) {
                 return response.json();

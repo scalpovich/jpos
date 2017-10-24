@@ -20,7 +20,6 @@ import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
 var window = Dimensions.get("window");
 var width = window.width;
 var height = window.height;
-var weiXinPayResponseListener = null;
 export default class PaidSuccessComponent extends Component {
     constructor(props) {
         super(props);
@@ -60,6 +59,44 @@ export default class PaidSuccessComponent extends Component {
         NativeModules["CustomNativeModule"]["startScanCodeActivity"]();
     }
 
+    handleAlipayButtonOnPress() {
+        CacheUtils.findUserInfo().then((userInfo) => {
+            let alipayTradeAppPayRequestParameters = {
+                tenantId: 3,
+                branchId: 3,
+                subject: "要货单支付",
+                outTradeNo: "fffff",
+                totalAmount: 0.01,
+                productCode: "fafafafa",
+                notifyUrl: "aaa",
+                userId: 1,
+            };
+            return WebUtils.doPost("https://check-local.smartpos.top/zd1/ct2/alipay/alipayTradeAppPay", alipayTradeAppPayRequestParameters);
+        }).then((alipayTradeAppPayResult) => {
+            if (!alipayTradeAppPayResult["successful"]) {
+                return CommonUtils.reject(alipayTradeAppPayResult["error"]);
+            }
+            console.log(alipayTradeAppPayResult["data"]);
+            return NativeModules["AlipayNativeModule"]["sendPayRequest"](alipayTradeAppPayResult["data"]);
+        }).then((sendPayRequestResult) => {
+            if (!sendPayRequestResult) {
+                return CommonUtils.reject("支付失败！");
+            }
+            var alipayResponseListener = DeviceEventEmitter.addListener("Alipay_Resp", (resp) => {
+                console.log("*************************************************************" + JSON.stringify(resp));
+                let resultStatus = resp["resultStatus"];
+                if (resultStatus == "9000") {
+                    // this["refs"]["alertDialogComponent"]["alert"](resp["memo"]);
+                } else {
+                    this["props"]["navigator"]["pop"]();
+                }
+                alipayResponseListener.remove();
+            });
+        }).catch((error) => {
+            alert(JSON.stringify(error))
+        })
+    }
+
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
@@ -77,6 +114,10 @@ export default class PaidSuccessComponent extends Component {
 
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.startScanCodeActivity.bind(this)}>
                     <Text style={{color: "#FFFFFF"}}>打开扫码页面</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handleAlipayButtonOnPress.bind(this)}>
+                    <Text style={{color: "#FFFFFF"}}>支付宝支付</Text>
                 </TouchableOpacity>
 
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
