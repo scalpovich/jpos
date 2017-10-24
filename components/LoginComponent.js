@@ -11,12 +11,12 @@ import {
     Dimensions,
     PixelRatio,
     NativeModules,
-    DeviceEventEmitter,
-    Alert
+    DeviceEventEmitter
 } from "react-native";
 import WebUtils from "../utils/WebUtils";
 import CacheUtils from "../utils/CacheUtils";
 import PaidSuccessComponent from "./PaidSuccessComponent";
+import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../commonComponent/LoadingToastComponent";
 
 var window = Dimensions.get("window");
@@ -40,6 +40,7 @@ export default class LoginComponent extends Component {
         })*/
         outTradeNo = outTradeNo + "a"
         var data = null;
+        this["refs"]["loadingToastComponent"]["show"]("加载中...");
         CacheUtils.findUserInfo().then((userInfo) => {
             var weiXinPayUnifiedOrderRequestParameters = {
                 tenantId: userInfo["tenantId"],
@@ -96,13 +97,8 @@ export default class LoginComponent extends Component {
                 }
             });
         }).catch((error) => {
-            Alert.alert("提示",
-                "出错了！",
-                [
-                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                { cancelable: false })
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["confirm"]("确定", error["code"]);
         });
     }
 
@@ -148,6 +144,7 @@ export default class LoginComponent extends Component {
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
                     <Text style={{color: "#FFFFFF"}}>支付</Text>
                 </TouchableOpacity>
+                <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
             </View>
         );

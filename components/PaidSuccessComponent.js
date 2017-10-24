@@ -62,7 +62,6 @@ export default class PaidSuccessComponent extends Component {
 
     handleAlipayButtonOnPress() {
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        return;
         CacheUtils.findUserInfo().then((userInfo) => {
             let alipayTradeAppPayRequestParameters = {
                 tenantId: 3,

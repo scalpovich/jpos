@@ -8,13 +8,13 @@ import {
     TouchableOpacity,
     Modal,
     Dimensions,
-    PixelRatio
+    PixelRatio,
+    StyleSheet
 } from "react-native";
 
 let window = Dimensions.get("window");
 let width = window.width;
-let height = window.height;
-var pixelWidth = 1 / PixelRatio.get();
+let pixelWidth = 1 / PixelRatio.get();
 
 export default class AlertDialogComponent extends Component {
     constructor(props) {
@@ -63,10 +63,9 @@ export default class AlertDialogComponent extends Component {
 
     renderAlertDialog() {
         return (
-            <View style={{width: width - 80, height: 40, alignItems: "center", justifyContent: "center", borderTopColor: "gray", borderTopWidth: pixelWidth}}>
-                <TouchableOpacity style={{width: width - 80, height: 40 - pixelWidth, alignItems: "center", justifyContent: "center"}}
-                                  onPress={this.state.handleOkButtonOnPress}>
-                    <Text style={{color: "#0074FA"}}>{this.state.okText}</Text>
+            <View style={styles.alertButtonPanel}>
+                <TouchableOpacity style={styles.alertButton} onPress={this.state.handleOkButtonOnPress}>
+                    <Text style={styles.buttonText}>{this.state.okText}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -74,14 +73,12 @@ export default class AlertDialogComponent extends Component {
 
     renderConfirmDialog() {
         return (
-            <View style={{width: width - 80, height: 40, alignItems: "center", justifyContent: "center", borderTopColor: "gray", borderTopWidth: pixelWidth, flexDirection: "row"}}>
-                <TouchableOpacity style={{width: (width - 80 - pixelWidth) / 2, height: 40 - pixelWidth, alignItems: "center", justifyContent: "center"}}
-                                  onPress={this.state.handleOkButtonOnPress}>
-                    <Text style={{color: "#0074FA"}}>确定</Text>
+            <View style={styles.confirmButtonPanel}>
+                <TouchableOpacity style={styles.confirmButtonLeft} onPress={this.state.handleOkButtonOnPress}>
+                    <Text style={styles.buttonText}>确定</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{width: (width - 80 - pixelWidth) / 2 + pixelWidth, height: 40 - pixelWidth, alignItems: "center", justifyContent: "center", borderLeftWidth: pixelWidth, borderLeftColor: "gray"}}
-                                  onPress={this.state.handleCancelButtonOnPress}>
-                    <Text style={{color: "#0074FA"}}>取消</Text>
+                <TouchableOpacity style={styles.confirmButtonRight} onPress={this.state.handleCancelButtonOnPress}>
+                    <Text style={styles.buttonText}>取消</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -94,9 +91,9 @@ export default class AlertDialogComponent extends Component {
                    visible={this.state.visible}
                    transparent={true}>
                 <View style={{flex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)", alignItems: "center", justifyContent: "center"}}>
-                    <View style={{backgroundColor: "#FFFFFF", height: 160, width: width - 80, borderRadius: 10}}>
-                        <View style={{width: width - 80, height: 120, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: "center", alignItems: "center", paddingLeft: 10, paddingRight: 10}}>
-                            <Text style={{color: "black"}}>{this.state.content}</Text>
+                    <View style={{backgroundColor: "#FFFFFF", height: 120, width: width - 160, borderRadius: 10}}>
+                        <View style={styles.contentPanel}>
+                            <Text style={styles.contentText}>{this.state.content}</Text>
                         </View>
                         {this.state.type == "alert" ? this.renderAlertDialog() : this.renderConfirmDialog()}
                     </View>
@@ -105,3 +102,59 @@ export default class AlertDialogComponent extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    contentPanel: {
+        width: width - 160,
+        height: 80,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingLeft: 10,
+        paddingRight: 10
+    },
+    alertButtonPanel: {
+        width: width - 160,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        borderTopColor: "gray",
+        borderTopWidth: pixelWidth
+    },
+    alertButton: {
+        width: width - 160,
+        height: 40 - pixelWidth,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    confirmButtonPanel: {
+        width: width - 160,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        borderTopColor: "gray",
+        borderTopWidth: pixelWidth,
+        flexDirection: "row"
+    },
+    confirmButtonLeft: {
+        width: (width - 160 - pixelWidth) / 2,
+        height: 40 - pixelWidth,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    confirmButtonRight: {
+        width: (width - 160 - pixelWidth) / 2 + pixelWidth,
+        height: 40 - pixelWidth,
+        alignItems: "center",
+        justifyContent: "center",
+        borderLeftWidth: pixelWidth,
+        borderLeftColor: "gray"
+    },
+    contentText: {
+        color: "black"
+    },
+    buttonText: {
+        color: "#0074FA"
+    }
+});
