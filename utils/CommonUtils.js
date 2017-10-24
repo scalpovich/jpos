@@ -5,6 +5,12 @@ import {
     DeviceEventEmitter
 } from "react-native";
 export default class CommonUtils {
+    static currentComponent = null;
+
+    static setCurrentComponent(currentComponent) {
+        this.currentComponent = currentComponent;
+    }
+
     static weiXinPayResponseListener = null;
     static reject(message) {
         return Promise.reject({code: message, message: message});
@@ -13,7 +19,8 @@ export default class CommonUtils {
     static addListener() {
         if (!this.weiXinPayResponseListener) {
             this.weiXinPayResponseListener = DeviceEventEmitter.addListener("WeiXin_Resp", (resp) => {
-                console.log("*************************************************************" + JSON.stringify(resp))
+                console.log("*************************************************************" + JSON.stringify(resp));
+                this["currentComponent"]["refs"]["alertDialogComponent"]["alert"]("确定", JSON.stringify(resp));
             });
         }
     }

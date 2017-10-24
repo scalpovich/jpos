@@ -90,8 +90,8 @@ export default class AlertDialogComponent extends Component {
                    animationType="fade"
                    visible={this.state.visible}
                    transparent={true}>
-                <View style={{flex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)", alignItems: "center", justifyContent: "center"}}>
-                    <View style={{backgroundColor: "#FFFFFF", height: 120, width: width - 160, borderRadius: 10}}>
+                <View style={styles.mask}>
+                    <View style={styles.container}>
                         <View style={styles.contentPanel}>
                             <Text style={styles.contentText}>{this.state.content}</Text>
                         </View>
@@ -104,6 +104,18 @@ export default class AlertDialogComponent extends Component {
 }
 
 const styles = StyleSheet.create({
+    mask: {
+        flex: 1,
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    container: {
+        backgroundColor: "#FFFFFF",
+        width: width - 160,
+        height: 120,
+        borderRadius: 10
+    },
     contentPanel: {
         width: width - 160,
         height: 80,

@@ -18,6 +18,7 @@ import CacheUtils from "../utils/CacheUtils";
 import PaidSuccessComponent from "./PaidSuccessComponent";
 import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../commonComponent/LoadingToastComponent";
+import CommonUtils from "../utils/CommonUtils";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -29,7 +30,9 @@ var itemHeight = (width - 2 * pixelWidth) / 3;
 var outTradeNo = "pp";
 export default class LoginComponent extends Component {
     componentDidMount() {
+        CommonUtils.addListener();
         this.state = {loginName: "", password: ""};
+        CommonUtils.setCurrentComponent(this);
     }
 
     handlePaidButtonOnPress() {
@@ -103,14 +106,17 @@ export default class LoginComponent extends Component {
     }
 
     handleLoginButtonOnPress() {
-        this.props.navigator.push({component: PaidSuccessComponent});
+        // this.props.navigator.push({component: PaidSuccessComponent});
+        this["refs"]["loadingToastComponent"]["show"]("登录中...");
+        NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"]).then((userInfo) => {
+
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            // this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        })
     }
 
     login() {
-
-    }
-
-    handleLoginNameOnChangeText() {
 
     }
 
