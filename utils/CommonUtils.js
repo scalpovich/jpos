@@ -1,9 +1,7 @@
 /**
  * Created by liuyandong on 2017/10/22.
  */
-import {
-    DeviceEventEmitter
-} from "react-native";
+import {DeviceEventEmitter} from "react-native";
 export default class CommonUtils {
     static currentComponent = null;
 
@@ -20,7 +18,6 @@ export default class CommonUtils {
         if (!this.weiXinPayResponseListener) {
             this.weiXinPayResponseListener = DeviceEventEmitter.addListener("WeiXin_Resp", (resp) => {
                 console.log("*************************************************************" + JSON.stringify(resp));
-                this["currentComponent"]["refs"]["alertDialogComponent"]["alert"]("确定", JSON.stringify(resp));
             });
         }
     }
