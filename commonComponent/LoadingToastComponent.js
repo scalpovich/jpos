@@ -2,13 +2,7 @@
  * Created by liuyandong on 2017/10/21.
  */
 import React, {Component} from "react";
-import {
-    View,
-    Text,
-    ActivityIndicator,
-    StyleSheet,
-    Dimensions
-} from "react-native";
+import {ActivityIndicator, Dimensions, StyleSheet, Text, View} from "react-native";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -22,18 +16,6 @@ export default class LoadingToastComponent extends Component {
 
     show(text) {
         this.setState({left: left, text: text});
-    }
-
-    showAsync(text) {
-        return new Promise((resolve, reject) => {
-            var state = {};
-            if (text) {
-                state["text"] = text;
-            }
-            state["left"] = left;
-            this.setState(state);
-            resolve();
-        });
     }
 
     hide() {

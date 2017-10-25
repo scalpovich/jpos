@@ -106,21 +106,29 @@ export default class LoginComponent extends Component {
         });
     }
 
-    handleLoginButtonOnPress() {
-        // this.props.navigator.push({component: PaidSuccessComponent});
+    login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
         NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"]).then((userInfo) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
-            alert(JSON.stringify(error))
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
         });
     }
 
-    login() {
-
+    obtainLastKnownLocation() {
+        this["refs"]["loadingToastComponent"]["show"]("登录中...");
+        NativeModules["CustomNativeModule"]["obtainLastKnownLocation"]().then((positionCoordinate) => {
+            return WebUtils.doGet("http://www.smartpos.top/portal/tenantWebService/showTenantInfo", {loginName: "61011888"});
+        }).then((userInfo) => {
+            alert(JSON.stringify(userInfo));
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["props"]["navigator"]["push"]({component: HomeView});
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        });
     }
 
     render() {
@@ -140,18 +148,22 @@ export default class LoginComponent extends Component {
                     </View>
                 </View>*/}
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
-                    <Text style={{backgroundColor: "red", height: 40}}>用户名：</Text>
-                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>
+                    {/*<Text style={{backgroundColor: "red", height: 40}}>用户名：</Text>*/}
+                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" keyboardType="numeric" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>
                 </View>
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
-                    <Text style={{backgroundColor: "red", height: 40}}>密码：</Text>
-                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" onChangeText={(text) => this.setState({password: text})} placeholder="请输入密码"></TextInput>
+                    {/*<Text style={{backgroundColor: "red", height: 40}}>密码：</Text>*/}
+                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} placeholder="请输入密码"></TextInput>
                 </View>
-                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handleLoginButtonOnPress.bind(this)}>
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
                     <Text style={{color: "#FFFFFF"}}>登录</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
                     <Text style={{color: "#FFFFFF"}}>支付</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.obtainLastKnownLocation.bind(this)}>
+                    <Text style={{color: "#FFFFFF"}}>获取位置坐标</Text>
                 </TouchableOpacity>
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>

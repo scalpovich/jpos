@@ -20,11 +20,22 @@ var width = window.width;
 var height = window.height;
 var pixelWidth = 1 / PixelRatio.get();
 
+const leftButton = <Text style={{color: "#FFFFFF"}}>返回</Text>;
+const rightButton = <Text style={{color: "#FFFFFF"}}>返回</Text>;
 export default class HomeView extends Component {
+    back() {
+        this["props"]["navigator"]["pop"]();
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <HeaderComponent></HeaderComponent>
+                <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
+                                 message="总部"
+                                 headerColor="#3A444E"
+                                 leftButton={leftButton}
+                                 rightButton={rightButton}>
+                </HeaderComponent>
             </View>
         );
     }
