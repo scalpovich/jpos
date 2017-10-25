@@ -17,16 +17,23 @@ var left = (width - 160) / 2;
 export default class LoadingToastComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {text: "加载中", left: 20000};
+        this.state = {text: "", left: 20000};
     }
 
     show(text) {
-        var state = {};
-        if (text) {
-            state["text"] = text;
-        }
-        state["left"] = left;
-        this.setState(state);
+        this.setState({left: left, text: text});
+    }
+
+    showAsync(text) {
+        return new Promise((resolve, reject) => {
+            var state = {};
+            if (text) {
+                state["text"] = text;
+            }
+            state["left"] = left;
+            this.setState(state);
+            resolve();
+        });
     }
 
     hide() {

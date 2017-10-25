@@ -6,7 +6,7 @@
 import React, {Component} from "react";
 import {AppRegistry} from "react-native";
 import {Navigator} from "react-native-deprecated-custom-components";
-import LoginComponent from "./components/LoginComponent";
+import LoginComponent from "./login/LoginComponent";
 
 class MainComponent extends Component {
     render() {

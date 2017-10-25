@@ -15,10 +15,11 @@ import {
 } from "react-native";
 import WebUtils from "../utils/WebUtils";
 import CacheUtils from "../utils/CacheUtils";
-import PaidSuccessComponent from "./PaidSuccessComponent";
+import PaidSuccessComponent from "../components/PaidSuccessComponent";
 import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../commonComponent/LoadingToastComponent";
 import CommonUtils from "../utils/CommonUtils";
+import HomeView from "../main/HomeView";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -109,11 +110,12 @@ export default class LoginComponent extends Component {
         // this.props.navigator.push({component: PaidSuccessComponent});
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
         NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"]).then((userInfo) => {
-
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
-            // this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        })
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        });
     }
 
     login() {

@@ -3,7 +3,7 @@
  */
 const APPAPI_SERVICE_URL = "http://www.baicu.com";
 export default class WebUtils {
-    static doGetAsync(serviceName, controllerName, actionName, requestParameters) {
+    static doGetAsync(serviceName, controllerName, actionName, accessToken, requestParameters) {
         var options = {
             method: "GET",
             headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"}
@@ -12,6 +12,7 @@ export default class WebUtils {
         requestParameterPairs.push("serviceName=" + serviceName);
         requestParameterPairs.push("controllerName=" + controllerName);
         requestParameterPairs.push("actionName=" + actionName);
+        requestParameterPairs.push("access_token=" + accessToken);
         if (requestParameters) {
             for (var key in requestParameters) {
                 requestParameterPairs.push(key + "=" + requestParameters[key]);
@@ -29,11 +30,12 @@ export default class WebUtils {
         });
     }
 
-    static doPostAsync(serviceName, controllerName, actionName, requestParameters) {
+    static doPostAsync(serviceName, controllerName, actionName, accessToken, requestParameters) {
         var requestParameterPairs = [];
         requestParameterPairs.push("serviceName=" + serviceName);
         requestParameterPairs.push("controllerName=" + controllerName);
         requestParameterPairs.push("actionName=" + actionName);
+        requestParameterPairs.push("access_token=" + accessToken);
         if (requestParameters) {
             var requestParameterPairs = [];
             for (var key in requestParameters) {
