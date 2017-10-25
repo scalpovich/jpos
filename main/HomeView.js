@@ -11,7 +11,8 @@ import {
     Dimensions,
     PixelRatio,
     NativeModules,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    StatusBar
 } from "react-native";
 import HeaderComponent from "../commonComponent/HeaderComponent";
 
@@ -30,6 +31,7 @@ export default class HomeView extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBar backgroundColor="#3A444E"></StatusBar>
                 <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
                                  message="总部"
                                  headerColor="#3A444E"
