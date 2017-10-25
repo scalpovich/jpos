@@ -113,6 +113,7 @@ export default class LoginComponent extends Component {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
+            alert(JSON.stringify(error))
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
         });

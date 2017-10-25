@@ -13,6 +13,8 @@ import {
     NativeModules,
     DeviceEventEmitter
 } from "react-native";
+import HeaderComponent from "../commonComponent/HeaderComponent";
+
 var window = Dimensions.get("window");
 var width = window.width;
 var height = window.height;
@@ -21,7 +23,9 @@ var pixelWidth = 1 / PixelRatio.get();
 export default class HomeView extends Component {
     render() {
         return (
-            <View style={styles.container}></View>
+            <View style={styles.container}>
+                <HeaderComponent></HeaderComponent>
+            </View>
         );
     }
 }
