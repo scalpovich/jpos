@@ -2,7 +2,15 @@
  * Created by liuyandong on 2017/10/25.
  */
 import React, {Component} from "react";
-import {Dimensions, Image, PixelRatio, StatusBar, StyleSheet, Text, View} from "react-native";
+import {
+    Dimensions,
+    Image,
+    PixelRatio,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View
+} from "react-native";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 import CommonUtils from "../../utils/CommonUtils";
 
@@ -12,7 +20,7 @@ var height = window.height;
 var pixelWidth = 1 / PixelRatio.get();
 
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
-const rightButton = CommonUtils.hasAuthority("out", "weiXinPay", "unifiedOrder") ? <Text style={{color: "#FFFFFF"}}>返回</Text> : null;
+const rightButton = <Image source={require("../../resources/images/common/add.png")}></Image>;
 export default class HomeView extends Component {
     back() {
         this["props"]["navigator"]["pop"]();
@@ -26,8 +34,9 @@ export default class HomeView extends Component {
                                  message="总部"
                                  headerColor="#3A444E"
                                  leftButton={leftButton}
-                                 rightButton={CommonUtils.hasAuthority("out", "weiXinPay", "unifiedOrder") ? <Text style={{color: "#FFFFFF"}}>返回</Text> : null}>
+                                 rightButton={rightButton}>
                 </HeaderComponent>
+                <View style={{flex: 1, backgroundColor: "#00AAEE"}}></View>
             </View>
         );
     }
