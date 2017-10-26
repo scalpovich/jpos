@@ -3,33 +3,31 @@
  */
 import React, {Component} from "react";
 import {
+    DeviceEventEmitter,
+    Dimensions,
+    NativeModules,
+    PixelRatio,
+    StatusBar,
     StyleSheet,
     Text,
-    View,
     TextInput,
     TouchableOpacity,
-    Dimensions,
-    PixelRatio,
-    NativeModules,
-    DeviceEventEmitter
+    View
 } from "react-native";
-import WebUtils from "../utils/WebUtils";
-import CacheUtils from "../utils/CacheUtils";
-import PaidSuccessComponent from "../components/PaidSuccessComponent";
-import AlertDialogComponent from "../commonComponent/AlertDialogComponent";
-import LoadingToastComponent from "../commonComponent/LoadingToastComponent";
-import CommonUtils from "../utils/CommonUtils";
+import WebUtils from "../../utils/WebUtils";
+import CacheUtils from "../../utils/CacheUtils";
+import PaidSuccessComponent from "../../components/PaidSuccessComponent";
+import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
+import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
+import CommonUtils from "../../utils/CommonUtils";
 import HomeView from "../main/HomeView";
 
 var window = Dimensions.get("window");
 var width = window.width;
-var height = window.height;
 var pixelWidth = 1 / PixelRatio.get();
-var itemWidth = (width - 2 * pixelWidth) / 3;
-var itemHeight = (width - 2 * pixelWidth) / 3;
 
 var outTradeNo = "pp";
-export default class LoginComponent extends Component {
+export default class LoginView extends Component {
     componentDidMount() {
         CommonUtils.addListener();
         this.state = {loginName: "", password: ""};
@@ -37,11 +35,6 @@ export default class LoginComponent extends Component {
     }
 
     handlePaidButtonOnPress() {
-        /*NativeModules["CustomNativeModule"]["login"](this.state.loginName, this.state.password).then((userInfo) => {
-            alert(JSON.stringify(userInfo));
-        }).catch((error) => {
-            alert(JSON.stringify(error));
-        })*/
         outTradeNo = outTradeNo + "a"
         var data = null;
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
@@ -127,26 +120,16 @@ export default class LoginComponent extends Component {
             this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"], () => {
+                this["props"]["navigator"]["push"]({component: HomeView});
+            });
         });
     }
 
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
-                {/*<View style={{height: 150, backgroundColor: "black"}}></View>
-                <View style={{height: height - 150}}>
-                    <View style={{height: width / 3, flexDirection: "row"}}>
-                        <View style={{width: itemWidth + pixelWidth, height: itemHeight, borderRightWidth: pixelWidth, borderRightColor: "gray"}}></View>
-                        <View style={{width: itemWidth + pixelWidth, height: itemHeight, borderRightWidth: pixelWidth, borderRightColor: "gray"}}></View>
-                        <View style={{width: itemWidth, height: itemHeight}}></View>
-                    </View>
-                    <View style={{height: width / 3, flexDirection: "row"}}>
-                        <View style={{width: itemWidth + pixelWidth, height: itemHeight, borderRightWidth: pixelWidth, borderRightColor: "gray", borderTopWidth: pixelWidth, borderTopColor: "gray"}}></View>
-                        <View style={{width: itemWidth + pixelWidth, height: itemHeight, borderRightWidth: pixelWidth, borderRightColor: "gray", borderTopWidth: pixelWidth, borderTopColor: "gray"}}></View>
-                        <View style={{width: itemWidth, height: itemHeight, borderTopWidth: pixelWidth, borderTopColor: "gray", borderBottomWidth: pixelWidth, borderBottomColor: "gray"}}></View>
-                    </View>
-                </View>*/}
+                <StatusBar backgroundColor="#3A444E"></StatusBar>
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     {/*<Text style={{backgroundColor: "red", height: 40}}>用户名：</Text>*/}
                     <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" keyboardType="numeric" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>

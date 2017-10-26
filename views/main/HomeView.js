@@ -2,26 +2,15 @@
  * Created by liuyandong on 2017/10/25.
  */
 import React, {Component} from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity,
-    Dimensions,
-    PixelRatio,
-    NativeModules,
-    DeviceEventEmitter,
-    StatusBar
-} from "react-native";
-import HeaderComponent from "../commonComponent/HeaderComponent";
+import {Dimensions, Image, PixelRatio, StatusBar, StyleSheet, Text, View} from "react-native";
+import HeaderComponent from "../../commonComponent/HeaderComponent";
 
 var window = Dimensions.get("window");
 var width = window.width;
 var height = window.height;
 var pixelWidth = 1 / PixelRatio.get();
 
-const leftButton = <Text style={{color: "#FFFFFF"}}>返回</Text>;
+const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
 const rightButton = <Text style={{color: "#FFFFFF"}}>返回</Text>;
 export default class HomeView extends Component {
     back() {
