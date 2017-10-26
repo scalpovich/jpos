@@ -4,12 +4,17 @@
 import {DeviceEventEmitter} from "react-native";
 export default class CommonUtils {
     static currentComponent = null;
+    static appAuthorities = null;
+    static weiXinPayResponseListener = null;
 
-    static setCurrentComponent(currentComponent) {
-        this.currentComponent = currentComponent;
+    static hasAuthority(serviceName, controllerName, actionName) {
+        if (!this.appAuthorities) {
+            return false;
+        } else {
+            return serviceName + "_" + controllerName + "_" + actionName in this.appAuthorities;
+        }
     }
 
-    static weiXinPayResponseListener = null;
     static reject(message) {
         return Promise.reject({code: message, message: message});
     }

@@ -4,6 +4,7 @@
 import React, {Component} from "react";
 import {Dimensions, Image, PixelRatio, StatusBar, StyleSheet, Text, View} from "react-native";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
+import CommonUtils from "../../utils/CommonUtils";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -11,7 +12,7 @@ var height = window.height;
 var pixelWidth = 1 / PixelRatio.get();
 
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
-const rightButton = <Text style={{color: "#FFFFFF"}}>返回</Text>;
+const rightButton = CommonUtils.hasAuthority("out", "weiXinPay", "unifiedOrder") ? <Text style={{color: "#FFFFFF"}}>返回</Text> : null;
 export default class HomeView extends Component {
     back() {
         this["props"]["navigator"]["pop"]();
@@ -25,7 +26,7 @@ export default class HomeView extends Component {
                                  message="总部"
                                  headerColor="#3A444E"
                                  leftButton={leftButton}
-                                 rightButton={rightButton}>
+                                 rightButton={CommonUtils.hasAuthority("out", "weiXinPay", "unifiedOrder") ? <Text style={{color: "#FFFFFF"}}>返回</Text> : null}>
                 </HeaderComponent>
             </View>
         );

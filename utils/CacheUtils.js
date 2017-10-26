@@ -6,4 +6,8 @@ export default class CacheUtils {
     static findUserInfo() {
         return NativeModules["CustomNativeModule"]["findUserInfo"]();
     }
+
+    static findAppAuthorities() {
+        return NativeModules["CustomNativeModule"]["findAppAuthorities"]();
+    }
 }

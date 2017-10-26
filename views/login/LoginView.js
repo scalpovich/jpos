@@ -31,7 +31,6 @@ export default class LoginView extends Component {
     componentDidMount() {
         CommonUtils.addListener();
         this.state = {loginName: "", password: ""};
-        CommonUtils.setCurrentComponent(this);
     }
 
     handlePaidButtonOnPress() {
@@ -102,6 +101,15 @@ export default class LoginView extends Component {
     login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
         NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"]).then((userInfo) => {
+            return CacheUtils.findAppAuthorities();
+        }).then((appAuthorities) => {
+            let appAuthorityJsonObject = {};
+            let length = appAuthorities.length;
+            for (let index = 0; index < length; index++) {
+                let appAuthority = appAuthorities[index];
+                appAuthorityJsonObject[appAuthority["serviceName"] + "_" + appAuthority["controllerName"] + "_" + appAuthority["actionName"]] = appAuthority;
+            }
+            CommonUtils.appAuthorities = appAuthorityJsonObject;
             this["refs"]["loadingToastComponent"]["hide"]();
             this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
@@ -113,11 +121,7 @@ export default class LoginView extends Component {
     obtainLastKnownLocation() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
         NativeModules["CustomNativeModule"]["obtainLastKnownLocation"]().then((positionCoordinate) => {
-            return WebUtils.doGet("http://www.smartpos.top/portal/tenantWebService/showTenantInfo", {loginName: "61011888"});
-        }).then((userInfo) => {
-            alert(JSON.stringify(userInfo));
-            this["refs"]["loadingToastComponent"]["hide"]();
-            this["props"]["navigator"]["push"]({component: HomeView});
+            alert(JSON.stringify(positionCoordinate));
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"], () => {
@@ -136,17 +140,17 @@ export default class LoginView extends Component {
                 </View>
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     {/*<Text style={{backgroundColor: "red", height: 40}}>密码：</Text>*/}
-                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} placeholder="请输入密码"></TextInput>
+                    <TextInput style={[styles.password]} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} placeholder="请输入密码"></TextInput>
                 </View>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
-                    <Text style={{color: "#FFFFFF"}}>登录</Text>
+                    <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
-                    <Text style={{color: "#FFFFFF"}}>支付</Text>
+                    <Text style={{color: "#FFFFFF", fontSize: 18}}>支付</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.obtainLastKnownLocation.bind(this)}>
-                    <Text style={{color: "#FFFFFF"}}>获取位置坐标</Text>
+                    <Text style={{color: "#FFFFFF", fontSize: 18}}>获取位置坐标</Text>
                 </TouchableOpacity>
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
@@ -168,11 +172,13 @@ const styles = StyleSheet.create({
     },
     loginName: {
         height: 40,
-        width: width - 80
+        width: width - 80,
+        fontSize: 18
     },
     password: {
         height: 40,
-        width: width - 80
+        width: width - 80,
+        fontSize: 18
     },
     loginButton: {
         backgroundColor: "#00AAEE",
