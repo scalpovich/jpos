@@ -1,0 +1,2 @@
+smartpos.android.app
+2405b8f131069c29c23656cd4d5acd77
