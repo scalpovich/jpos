@@ -21,6 +21,7 @@ import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import CommonUtils from "../../utils/CommonUtils";
 import HomeView from "../main/HomeView";
+import Constants from "../../constants/Constants";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -39,9 +40,9 @@ export default class LoginView extends Component {
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
         CacheUtils.findUserInfo().then((userInfo) => {
             var weiXinPayUnifiedOrderRequestParameters = {
-                tenantId: userInfo["tenantId"],
-                branchId: userInfo["branchId"],
-                userId: userInfo["userId"],
+                tenantId: 7,
+                branchId: 7,
+                userId: 7,
                 notifyUrl: "aa",
                 tradeType: "APP",
                 body: "afafa",
@@ -52,20 +53,20 @@ export default class LoginView extends Component {
             return WebUtils.doGet("http://192.168.31.200:8082/out/weiXinPay/unifiedOrder", weiXinPayUnifiedOrderRequestParameters);
         }).then((weiXinPayUnifiedOrderResult) => {
             if (!weiXinPayUnifiedOrderResult["successful"]) {
-                return Promise.reject(weiXinPayUnifiedOrderResult["error"]);
+                return CommonUtils.reject(weiXinPayUnifiedOrderResult["error"]);
             }
             data = weiXinPayUnifiedOrderResult["data"];
             return NativeModules["WeiXinNativeModule"]["registerApp"](data["appid"]);
         }).then((registerAppSuccessful) => {
             if (!registerAppSuccessful) {
-                return Promise.reject("注册APP失败！")
+                return CommonUtils.reject("注册APP失败！");
             }
             return NativeModules["WeiXinNativeModule"]["isWXAppInstalled"]();
         }).then((isInstalled) => {
             if (!isInstalled) {
-                return Promise.reject("未安装微信！");
+                return CommonUtils.reject("未安装微信！")
             }
-            var sendPayRequestPayParameters = {
+            var sendPayRequestParameters = {
                 partnerId: data["partnerid"],
                 prepayId: data["prepayid"],
                 nonceStr: data["noncestr"],
@@ -73,36 +74,32 @@ export default class LoginView extends Component {
                 package: data["package"],
                 sign: data["sign"]
             };
-            return NativeModules["WeiXinNativeModule"]["sendPayRequest"](sendPayRequestPayParameters);
+            return NativeModules["WeiXinNativeModule"]["sendPayRequest"](sendPayRequestParameters);
         }).then((sendPayRequestSuccessful) => {
             if (!sendPayRequestSuccessful) {
-                return Promise.reject("支付失败！")
+                return CommonUtils.reject("支付失败！")
             }
-            var weiXinPayResponseListener = DeviceEventEmitter.addListener("WeiXin_Resp", (resp) => {
-                console.log("*************************************************************" + JSON.stringify(resp))
-                if (resp["type"] == "PayReq_Resp") {
-                    var errCode = resp["errCode"];
-                    if (errCode == 0) {
-                        this.props.navigator.push({component: PaidSuccessComponent});
-                    } else if (errCode == -1) {
-                        alert("支付失败！");
-                    } else if (errCode == -2) {
+            var weiXinPayResponseListener = DeviceEventEmitter.addListener("Wei_Xin_Pay_Resp", (resp) => {
+                weiXinPayResponseListener.remove();
+                var errCode = resp["errCode"];
+                if (errCode == 0) {
+                    this.props.navigator.push({component: PaidSuccessComponent});
+                } else if (errCode == -1) {
+                    alert("支付失败！");
+                } else if (errCode == -2) {
 
-                    }
-                    weiXinPayResponseListener.remove();
                 }
             });
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["confirm"]("确定", error["code"]);
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
         });
     }
 
     login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
-        NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"]).then((userInfo) => {
-            return CacheUtils.findAppAuthorities();
-        }).then((appAuthorities) => {
+        NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
+            let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};
             let length = appAuthorities.length;
             for (let index = 0; index < length; index++) {
@@ -130,6 +127,64 @@ export default class LoginView extends Component {
         });
     }
 
+    doWeiXinLogin(code) {
+        let obtainOAuthAccessTokenRequestParameters = {
+            appId: Constants.WEI_XIN_OPEN_PLATFORM_APP_ID,
+            code: code
+        };
+        WebUtils.doGetAsync(Constants.SERVICE_NAME_PLATFORM, "weiXin", "obtainOAuthAccessToken", null, obtainOAuthAccessTokenRequestParameters).then((obtainOAuthAccessTokenResult) => {
+            if (!obtainOAuthAccessTokenResult["successful"]) {
+                return CommonUtils.reject(obtainOAuthAccessTokenResult["error"]);
+            }
+            return NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_WEI_XIN);
+        }).then((userInfo) => {
+            let appAuthorities = userInfo["appAuthorities"];
+            let appAuthorityJsonObject = {};
+            let length = appAuthorities.length;
+            for (let index = 0; index < length; index++) {
+                let appAuthority = appAuthorities[index];
+                appAuthorityJsonObject[appAuthority["serviceName"] + "_" + appAuthority["controllerName"] + "_" + appAuthority["actionName"]] = appAuthority;
+            }
+            CommonUtils.appAuthorities = appAuthorityJsonObject;
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["props"]["navigator"]["push"]({component: HomeView});
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        });
+    }
+
+    useWeiXinLogin() {
+        let sendAuthRequestParameters = {
+            scope: "snsapi_userinfo",
+            state: "wechat_sdk_demo_test"
+        };
+        this["refs"]["loadingToastComponent"]["show"]("登录中...");
+        NativeModules["WeiXinNativeModule"]["registerApp"](Constants.WEI_XIN_OPEN_PLATFORM_APP_ID).then((registerAppSuccessful) => {
+            if (!registerAppSuccessful) {
+                return CommonUtils.reject("注册APP失败！")
+            }
+            return NativeModules["WeiXinNativeModule"]["sendAuthRequest"](sendAuthRequestParameters);
+        }).then((sendAuthRequestResult) => {
+            if (!sendAuthRequestResult) {
+                return CommonUtils.reject("登录失败！")
+            }
+            var weiXinAuthResponseListener = DeviceEventEmitter.addListener("Wei_Xin_Auth_Resp", (resp) => {
+                weiXinAuthResponseListener.remove();
+                var errCode = resp["errCode"];
+                if (errCode == 0) {
+                    this.doWeiXinLogin(resp["code"]);
+                } else if (errCode == -1) {
+                    this["refs"]["loadingToastComponent"]["hide"]();
+                    this["refs"]["alertDialogComponent"]["alert"]("确定", "登录失败！");
+                }
+            });
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        })
+    }
+
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
@@ -151,6 +206,10 @@ export default class LoginView extends Component {
 
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.obtainLastKnownLocation.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>获取位置坐标</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.useWeiXinLogin.bind(this)}>
+                    <Text style={{color: "#FFFFFF", fontSize: 18}}>使用微信登录</Text>
                 </TouchableOpacity>
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>

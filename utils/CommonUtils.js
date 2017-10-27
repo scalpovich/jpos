@@ -2,6 +2,7 @@
  * Created by liuyandong on 2017/10/22.
  */
 import {DeviceEventEmitter} from "react-native";
+import Constants from "../constants/Constants";
 export default class CommonUtils {
     static currentComponent = null;
     static appAuthorities = null;
@@ -32,5 +33,15 @@ export default class CommonUtils {
             this.weiXinPayResponseListener.remove();
             this.weiXinPayResponseListener = null
         }
+    }
+
+    static getServiceName(business) {
+        let serviceName = null;
+        if (business == Constants.BUSINESS_CATERING) {
+            serviceName = Constants.SERVICE_NAME_CATERING;
+        } else if (business == Constants.BUSINESS_RETAIL) {
+            serviceName = Constants.SERVICE_NAME_RETAIL;
+        }
+        return serviceName;
     }
 }
