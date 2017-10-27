@@ -21,6 +21,8 @@ import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import CommonUtils from "../../utils/CommonUtils";
 import HomeView from "../main/HomeView";
+import ForgetPasswordView from "./ForgetPasswordView";
+import RegisterView from "./RegisterView";
 import Constants from "../../constants/Constants";
 
 var window = Dimensions.get("window");
@@ -185,6 +187,14 @@ export default class LoginView extends Component {
         })
     }
 
+    toForgetPasswordView() {
+        this["props"]["navigator"]["push"]({component: ForgetPasswordView});
+    }
+
+    toRegisterView() {
+        this["props"]["navigator"]["push"]({component: RegisterView});
+    }
+
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
@@ -200,6 +210,14 @@ export default class LoginView extends Component {
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                 </TouchableOpacity>
+                <View style={{height: 40, width: width - 80, flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+                    <TouchableOpacity onPress={this.toRegisterView.bind(this)}>
+                        <Text style={{fontSize: 12, color: "#0074FA"}}>立即注册</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toForgetPasswordView.bind(this)}>
+                        <Text style={{fontSize: 12, color: "#0074FA"}}>忘记密码？</Text>
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>支付</Text>
                 </TouchableOpacity>
