@@ -4,9 +4,10 @@
 import React, {Component} from "react";
 import {ActivityIndicator, Dimensions, StyleSheet, Text, View} from "react-native";
 
-var window = Dimensions.get("window");
-var width = window.width;
-var left = (width - 160) / 2;
+let window = Dimensions.get("window");
+let width = window.width;
+let height = window.height;
+let left = (width - 160) / 2;
 
 export default class LoadingToastComponent extends Component {
     constructor(props) {
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
         height: 60,
         position: "absolute",
         backgroundColor: "#3A444E",
-        borderRadius: 4
+        borderRadius: 4,
+        top: (height - 60) / 2
     },
     justifyContentCenter: {
         justifyContent: "center"

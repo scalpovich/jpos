@@ -184,7 +184,7 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        })
+        });
     }
 
     toForgetPasswordView() {

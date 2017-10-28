@@ -18,7 +18,7 @@ export default class WebUtils {
         }
         if (requestParameters) {
             for (var key in requestParameters) {
-                requestParameterPairs.push(key + "=" + requestParameters[key]);
+                requestParameterPairs.push(key + "=" + JSON.stringify(requestParameters[key]));
             }
         }
         var url = APP_API_SERVICE_URL + Constants.PROXY_DO_GET_URI + "?" + requestParameterPairs.join("&");
@@ -45,7 +45,7 @@ export default class WebUtils {
         if (requestParameters) {
             var requestParameterPairs = [];
             for (var key in requestParameters) {
-                requestParameterPairs.push(key + "=" + requestParameters[key]);
+                requestParameterPairs.push(key + "=" + JSON.stringify(requestParameters[key]));
             }
         }
         var options = {
