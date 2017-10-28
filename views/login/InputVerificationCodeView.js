@@ -17,6 +17,8 @@ import HeaderComponent from "../../commonComponent/HeaderComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import SetNewPasswordView from "./SetNewPasswordView";
+import WebUtils from "../../utils/WebUtils";
+import Constants from "../../constants/Constants";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -27,6 +29,7 @@ const leftButton = <Image source={require("../../resources/images/common/back.pn
 export default class InputVerificationCodeView extends Component {
     constructor(props) {
         super(props);
+        this["state"] = {verificationCode: ["", "", "", ""]};
     }
     back() {
         this["props"]["navigator"]["pop"]();
@@ -58,10 +61,25 @@ export default class InputVerificationCodeView extends Component {
                     break;
             }
         }
+        let verificationCode = this["state"]["verificationCode"];
+        verificationCode[index] = text;
+        this["setState"]({verificationCode: verificationCode});
     }
 
     handleNextStepOnPress() {
-        this["props"]["navigator"]["push"]({component: SetNewPasswordView});
+        let checkVerificationCodeRequestParameters = {
+            phoneNumber: this["props"]["phoneNumber"],
+            verificationCode: this["state"]["verificationCode"]["join"]("")
+        };
+        alert(JSON.stringify(checkVerificationCodeRequestParameters));
+        this["refs"]["loadingToastComponent"]["show"]("加载中...");
+        WebUtils.doGetAsync(Constants.SERVICE_NAME_PLATFORM, "", "", null, checkVerificationCodeRequestParameters).then((checkVerificationCodeResult) => {
+            alert(JSON.stringify(checkVerificationCodeResult));
+            this["props"]["navigator"]["push"]({component: SetNewPasswordView});
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        });
     }
 
     render() {

@@ -43,12 +43,13 @@ export default class ForgetPasswordView extends Component {
 
     handleNextStepOnPress() {
         var pattern = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
-        if (!pattern.test(this.state.phoneNumber)) {
+        let phoneNumber = this["state"]["phoneNumber"];
+        if (!pattern.test(phoneNumber)) {
             this["refs"]["alertDialogComponent"]["alert"]("确定", "请输入正确的手机号码！");
             return;
         }
 
-        this["props"]["navigator"]["push"]({component: InputVerificationCodeView});
+        this["props"]["navigator"]["push"]({component: InputVerificationCodeView, parameters: {phoneNumber: phoneNumber}});
 
         /*this["refs"]["loadingToastComponent"]["show"]("加载中...");
         let sendSmsRequestParameters = {
