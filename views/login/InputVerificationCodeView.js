@@ -71,7 +71,6 @@ export default class InputVerificationCodeView extends Component {
             phoneNumber: this["props"]["phoneNumber"],
             verificationCode: this["state"]["verificationCode"]["join"]("")
         };
-        alert(JSON.stringify(checkVerificationCodeRequestParameters));
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
         WebUtils.doGetAsync(Constants.SERVICE_NAME_PLATFORM, "", "", null, checkVerificationCodeRequestParameters).then((checkVerificationCodeResult) => {
             alert(JSON.stringify(checkVerificationCodeResult));
