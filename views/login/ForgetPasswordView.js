@@ -70,7 +70,7 @@ export default class ForgetPasswordView extends Component {
             <View style={styles.container}>
                 <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
                                  message="重置密码"
-                                 headerColor="#3A444E"
+                                 headerColor="#00AAEE"
                                  leftButton={leftButton}
                                  rightButton={null}>
                 </HeaderComponent>
