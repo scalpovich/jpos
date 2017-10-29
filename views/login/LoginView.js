@@ -12,7 +12,8 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
+    Platform
 } from "react-native";
 import WebUtils from "../../utils/WebUtils";
 import CacheUtils from "../../utils/CacheUtils";
@@ -32,7 +33,6 @@ var pixelWidth = 1 / PixelRatio.get();
 var outTradeNo = "pp";
 export default class LoginView extends Component {
     componentDidMount() {
-        CommonUtils.addListener();
         this.state = {loginName: "", password: ""};
     }
 
@@ -100,7 +100,7 @@ export default class LoginView extends Component {
 
     login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
-        NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
+        /*NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
             let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};
             let length = appAuthorities.length;
@@ -114,7 +114,7 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        });
+        });*/
     }
 
     obtainLastKnownLocation() {
@@ -198,7 +198,9 @@ export default class LoginView extends Component {
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
-                <StatusBar backgroundColor="#3A444E"></StatusBar>
+                {
+                    Platform.OS == "android" ? <StatusBar backgroundColor="#3A444E"></StatusBar> : null
+                }
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     {/*<Text style={{backgroundColor: "red", height: 40}}>用户名：</Text>*/}
                     <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" keyboardType="numeric" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>

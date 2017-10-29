@@ -5,7 +5,6 @@ import React, {Component} from "react";
 import {
     Dimensions,
     PixelRatio,
-    StatusBar,
     StyleSheet,
     Text,
     TextInput,
@@ -69,7 +68,6 @@ export default class ForgetPasswordView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor="#3A444E"></StatusBar>
                 <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
                                  message="重置密码"
                                  headerColor="#3A444E"

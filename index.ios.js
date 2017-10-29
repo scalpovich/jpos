@@ -4,50 +4,24 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React, {Component} from "react";
+import {AppRegistry} from "react-native";
+import {Navigator} from "react-native-deprecated-custom-components";
+import LoginView from "./views/login/LoginView";
 
-export default class jposCreate extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
+class MainComponent extends Component {
+    render() {
+        return (
+            <Navigator
+                initialRoute={{component: LoginView, parameters: {}}}
+                renderScene={(route, navigator) =>
+                    <route.component route={route} navigator={navigator} {...route.parameters}></route.component>
+                }
+                configureScene={(route) => {
+                    return Navigator.SceneConfigs.FloatFromRight
+                }}>
+            </Navigator>
+        );
+    }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('jposCreate', () => jposCreate);
+AppRegistry.registerComponent("MainComponent", () => MainComponent);

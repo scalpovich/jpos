@@ -26,7 +26,7 @@ export default class LoadingToastComponent extends Component {
     render() {
         return (
             <View style={[styles.loadingToastPanel, styles.justifyContentCenter, styles.alignItemsCenter, {opacity: 0.9, left: this.state.left, flexDirection: "row"}]}>
-                <ActivityIndicator color="#FFFFFF" size={30}></ActivityIndicator>
+                <ActivityIndicator color="#FFFFFF" size={1}></ActivityIndicator>
                 <Text style={{color: "#FFFFFF", marginLeft: 10}}>{this.state.text}</Text>
             </View>
         );
