@@ -34,7 +34,7 @@ export default class InputVerificationCodeView extends Component {
         this["props"]["navigator"]["pop"]();
     }
 
-    handleVerificationCodeOnChangeText(index, text) {
+    /*handleVerificationCodeOnChangeText(index, text) {
         if (text) {
             switch(index) {
                 case 0:
@@ -63,10 +63,14 @@ export default class InputVerificationCodeView extends Component {
         let verificationCode = this["state"]["verificationCode"];
         verificationCode[index] = text;
         this["setState"]({verificationCode: verificationCode});
+    }*/
+
+    handleVerificationCodeOnChangeText(text) {
+        this["setState"]({verificationCode: text});
     }
 
     handleNextStepOnPress() {
-        let checkVerificationCodeRequestParameters = {
+        /*let checkVerificationCodeRequestParameters = {
             phoneNumber: this["props"]["phoneNumber"],
             verificationCode: this["state"]["verificationCode"]["join"]("")
         };
@@ -77,7 +81,8 @@ export default class InputVerificationCodeView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        });
+        });*/
+        this["props"]["navigator"]["push"]({component: SetNewPasswordView});
     }
 
     render() {
@@ -85,7 +90,7 @@ export default class InputVerificationCodeView extends Component {
             <View style={styles.container}>
                 <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
                                  message="重置密码"
-                                 headerColor="#3A444E"
+                                 headerColor="#00AAEE"
                                  leftButton={leftButton}
                                  rightButton={null}>
                 </HeaderComponent>
@@ -93,7 +98,7 @@ export default class InputVerificationCodeView extends Component {
                     <View style={{marginTop: 20, marginLeft: 20}}>
                         <Text style={{color: "black", fontSize: 25}}>请输短信验证码</Text>
                     </View>
-                    <View style={styles.verificationCodeView}>
+                    {/*<View style={styles.verificationCodeView}>
                         <TextInput style={[styles.verificationCodeInput]}
                                    underlineColorAndroid="transparent"
                                    autoFocus={true}
@@ -123,6 +128,15 @@ export default class InputVerificationCodeView extends Component {
                                    maxLength={1}
                                    onChangeText={this.handleVerificationCodeOnChangeText.bind(this, 3)}>
                         </TextInput>
+                    </View>*/}
+                    <View style={styles.verificationCodeView}>
+                        <TextInput style={[styles.verificationCodeInput]}
+                                   underlineColorAndroid="transparent"
+                                   autoFocus={true}
+                                   keyboardType="numeric"
+                                   onChangeText={this.handleVerificationCodeOnChangeText.bind(this)}
+                                   placeholder="请输入短信验证码">
+                        </TextInput>
                     </View>
                     <TouchableOpacity style={[styles.nextStepButton, styles.justifyContentCenter, styles.alignItemsCenter]}
                                       onPress={this.handleNextStepOnPress.bind(this)}>
@@ -141,7 +155,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#F5F5F5"
     },
-    verificationCodeView: {
+    /*verificationCodeView: {
         marginTop: 20,
         flexDirection: "row",
         justifyContent: "space-around",
@@ -155,6 +169,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: "center",
         borderRadius: 4
+    },*/
+    verificationCodeView: {
+        borderBottomWidth: pixelWidth,
+        borderBottomColor: "gray",
+        marginTop: 20
+    },
+    verificationCodeInput: {
+        height: 40,
+        width: width - 80,
+        fontSize: 18
     },
     justifyContentCenter: {
         justifyContent: "center"

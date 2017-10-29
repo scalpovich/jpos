@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     phoneNumberInput: {
         height: 40,
         width: width - 80,
-        fontSize: 18,
+        fontSize: 18
     },
     justifyContentCenter: {
         justifyContent: "center"

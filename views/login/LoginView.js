@@ -13,7 +13,8 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Platform
+    Platform,
+    Alert
 } from "react-native";
 import WebUtils from "../../utils/WebUtils";
 import CacheUtils from "../../utils/CacheUtils";
@@ -203,7 +204,7 @@ export default class LoginView extends Component {
                 }
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     {/*<Text style={{backgroundColor: "red", height: 40}}>用户名：</Text>*/}
-                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" keyboardType="numeric" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>
+                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" autoFocus={true} keyboardType="numeric" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>
                 </View>
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     {/*<Text style={{backgroundColor: "red", height: 40}}>密码：</Text>*/}

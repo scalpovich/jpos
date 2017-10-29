@@ -7,7 +7,6 @@ import {
     Dimensions,
     NativeModules,
     PixelRatio,
-    StatusBar,
     StyleSheet,
     Text,
     TextInput,
@@ -32,14 +31,14 @@ export default class RegisterView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor="#3A444E"></StatusBar>
                 <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
                                  message="商户注册"
-                                 headerColor="#3A444E"
+                                 headerColor="#00AAEE"
                                  leftButton={leftButton}
                                  rightButton={rightButton}>
                 </HeaderComponent>
-                <View style={{flex: 1, backgroundColor: "#00AAEE"}}></View>
+                <View style={{flex: 1, backgroundColor: "#EAEAF1"}}>
+                </View>
             </View>
         );
     }
@@ -47,7 +46,6 @@ export default class RegisterView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#F5F5F5"
+        flex: 1
     }
 });

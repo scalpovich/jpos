@@ -9,7 +9,9 @@ import {
     Modal,
     Dimensions,
     PixelRatio,
-    StyleSheet
+    StyleSheet,
+    Platform,
+    Alert
 } from "react-native";
 
 let window = Dimensions.get("window");
@@ -31,34 +33,42 @@ export default class AlertDialogComponent extends Component {
     }
 
     alert(okText, content, handleOkButtonOnPress) {
-        this.setState({
-            type: "alert",
-            okText: okText,
-            handleOkButtonOnPress: () => {
-                this.setState({visible: false});
-                handleOkButtonOnPress && handleOkButtonOnPress();
-            },
-            visible: true,
-            content: content
-        });
+        if (Platform.OS == "android") {
+            this.setState({
+                type: "alert",
+                okText: okText,
+                handleOkButtonOnPress: () => {
+                    this.setState({visible: false});
+                    handleOkButtonOnPress && handleOkButtonOnPress();
+                },
+                visible: true,
+                content: content
+            });
+        } else {
+            Alert.alert("", content, [{text: okText, onPress: handleOkButtonOnPress}]);
+        }
     }
 
     confirm(okText, cancelText, content, handleOkButtonOnPress, handleCancelButtonOnPress) {
-        this.setState({
-            type: "confirm",
-            okText: okText,
-            cancelText: cancelText,
-            handleOkButtonOnPress: () => {
-                this.setState({visible: false});
-                handleOkButtonOnPress && handleOkButtonOnPress();
-            },
-            handleCancelButtonOnPress: () => {
-                this.setState({visible: false});
-                handleCancelButtonOnPress && handleCancelButtonOnPress();
-            },
-            visible: true,
-            content: content
-        });
+        if (Platform.OS == "android") {
+            this.setState({
+                type: "confirm",
+                okText: okText,
+                cancelText: cancelText,
+                handleOkButtonOnPress: () => {
+                    this.setState({visible: false});
+                    handleOkButtonOnPress && handleOkButtonOnPress();
+                },
+                handleCancelButtonOnPress: () => {
+                    this.setState({visible: false});
+                    handleCancelButtonOnPress && handleCancelButtonOnPress();
+                },
+                visible: true,
+                content: content
+            });
+        } else {
+            Alert.alert("", content, [{text: okText, onPress: handleOkButtonOnPress}, {text: cancelText, onPress: handleCancelButtonOnPress}]);
+        }
     }
 
     renderAlertDialog() {

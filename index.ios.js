@@ -9,7 +9,7 @@ import {AppRegistry} from "react-native";
 import {Navigator} from "react-native-deprecated-custom-components";
 import LoginView from "./views/login/LoginView";
 
-class MainComponent extends Component {
+export default class MainComponent extends Component {
     render() {
         return (
             <Navigator

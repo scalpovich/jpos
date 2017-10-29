@@ -15,6 +15,7 @@ import {
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
+import LoginView from "./LoginView";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -28,6 +29,10 @@ export default class SetNewPasswordView extends Component {
     }
 
     handleNextStepOnPress() {
+        // this["refs"]["loadingToastComponent"]["show"]("加载中...");
+        this["refs"]["alertDialogComponent"]["alert"]("确定", "重置密码成功！", () => {
+            this["props"]["navigator"]["push"]({component: LoginView});
+        });
     }
 
     render() {
@@ -35,7 +40,7 @@ export default class SetNewPasswordView extends Component {
             <View style={styles.container}>
                 <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
                                  message="重置密码"
-                                 headerColor="#3A444E"
+                                 headerColor="#00AAEE"
                                  leftButton={leftButton}
                                  rightButton={null}>
                 </HeaderComponent>
@@ -44,14 +49,14 @@ export default class SetNewPasswordView extends Component {
                         <Text style={{color: "black", fontSize: 25}}>请设置新密码</Text>
                     </View>
                     <View style={styles.passwordView}>
-                        <TextInput style={styles.password} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入密码"></TextInput>
+                        <TextInput style={styles.password} underlineColorAndroid="transparent" autoFocus={true} secureTextEntry={true} onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入密码"></TextInput>
                     </View>
                     <View style={styles.confirmPasswordView}>
                         <TextInput style={styles.confirmPassword} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} placeholder="请再次输入密码"></TextInput>
                     </View>
                     <TouchableOpacity style={[styles.nextStepButton, styles.justifyContentCenter, styles.alignItemsCenter]}
                                       onPress={this.handleNextStepOnPress.bind(this)}>
-                        <Text style={{color: "#FFFFFF", fontSize: 18}}>下一步</Text>
+                        <Text style={{color: "#FFFFFF", fontSize: 18}}>完成</Text>
                     </TouchableOpacity>
                 </View>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
