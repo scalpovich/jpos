@@ -27,23 +27,7 @@ export default class PaidSuccessComponent extends Component {
     }
 
     handlePaidButtonOnPress() {
-        /*NativeModules["CustomNativeModule"]["login"]("61011888", "e10adc3949ba59abbe56e057f20f883e").then((result) => {
-            return CommonUtils.reject("你好")
-        }).catch((error) => {
-            alert(error["code"])
-        })*/
         this["props"]["navigator"]["push"]({component: TestComponent});
-        // this["props"]["navigator"].pop();
-        /*CacheUtils.findUserInfo().then((userInfo) => {
-            return NativeModules["AlipayNativeModule"]["sendPayRequest"](JSON.stringify(userInfo));
-        }).then((result) => {
-            var alipayResponseListener = DeviceEventEmitter.addListener("Alipay_Resp", (resp) => {
-                alipayResponseListener.remove();
-            });
-        }).catch((error) => {
-            alert(error);
-        });*/
-        // this["refs"]["alertDialogComponent"]["alert"]();
     }
 
     startOrderService() {
@@ -81,20 +65,15 @@ export default class PaidSuccessComponent extends Component {
             console.log(alipayTradeAppPayResult["data"]);
             return NativeModules["AlipayNativeModule"]["sendPayRequest"](alipayTradeAppPayResult["data"]);
         }).then((sendPayRequestResult) => {
-            if (!sendPayRequestResult) {
-                return CommonUtils.reject("支付失败！");
-            }
             this["refs"]["loadingToastComponent"]["hide"]();
-            var alipayResponseListener = DeviceEventEmitter.addListener("Alipay_Resp", (resp) => {
-                console.log("*************************************************************" + JSON.stringify(resp));
-                let resultStatus = resp["resultStatus"];
-                if (resultStatus == "9000") {
-                    // this["refs"]["alertDialogComponent"]["alert"](resp["memo"]);
-                } else {
-                    this["props"]["navigator"]["pop"]();
-                }
-                alipayResponseListener.remove();
-            });
+            let resultStatus = sendPayRequestResult["resultStatus"];
+            if (resultStatus == "9000") {
+                this["props"]["navigator"]["push"]({component: TestComponent});
+            } else if (resultStatus == "8000") {
+                this["refs"]["alertDialogComponent"]["alert"]("确定", "支付结果确认中！");
+            } else {
+                this["refs"]["alertDialogComponent"]["alert"]("确定", "支付失败！");
+            }
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
