@@ -13,8 +13,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Platform,
-    Alert
+    Platform
 } from "react-native";
 import WebUtils from "../../utils/WebUtils";
 import CacheUtils from "../../utils/CacheUtils";
@@ -31,14 +30,12 @@ var window = Dimensions.get("window");
 var width = window.width;
 var pixelWidth = 1 / PixelRatio.get();
 
-var outTradeNo = "pp";
 export default class LoginView extends Component {
     componentDidMount() {
         this.state = {loginName: "", password: ""};
     }
 
     handlePaidButtonOnPress() {
-        outTradeNo = outTradeNo + "a"
         var data = null;
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
         CacheUtils.findUserInfo().then((userInfo) => {
@@ -49,7 +46,7 @@ export default class LoginView extends Component {
                 notifyUrl: "aa",
                 tradeType: "APP",
                 body: "afafa",
-                outTradeNo: outTradeNo,
+                outTradeNo: "afafafafafa",
                 totalFee: 1,
                 spbillCreateIp: "192.168.0.186"
             };
@@ -196,6 +193,31 @@ export default class LoginView extends Component {
         this["props"]["navigator"]["push"]({component: RegisterView});
     }
 
+    handleAlipayButtonOnPress() {
+        let alipayTradeAppPayRequestParameters = {
+            tenantId: 4,
+            branchId: 4,
+            subject: "subject",
+            outTradeNo: "outTradeNobb",
+            totalAmount: 0.01,
+            productCode: "productCode",
+            notifyUrl: "notifyUrl",
+            userId: 1
+        };
+        this["refs"]["loadingToastComponent"]["show"]("加载中...");
+        WebUtils.doGet("https://check-local.smartpos.top/zd1/ct2/alipay/alipayTradeAppPay", alipayTradeAppPayRequestParameters).then((alipayTradeAppPayResult) => {
+            if (!alipayTradeAppPayResult["successful"]) {
+                return CommonUtils.reject(alipayTradeAppPayResult["error"]);
+            }
+            return NativeModules["AlipayNativeModule"]["sendPayRequest"](alipayTradeAppPayResult["data"]);
+        }).then((payResult) => {
+            alert(payResult);
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
+        })
+    }
+
     render() {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
@@ -222,7 +244,11 @@ export default class LoginView extends Component {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
-                    <Text style={{color: "#FFFFFF", fontSize: 18}}>支付</Text>
+                    <Text style={{color: "#FFFFFF", fontSize: 18}}>微信支付</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handleAlipayButtonOnPress.bind(this)}>
+                    <Text style={{color: "#FFFFFF", fontSize: 18}}>支付宝支付</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.obtainLastKnownLocation.bind(this)}>
