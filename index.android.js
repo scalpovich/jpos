@@ -8,6 +8,8 @@ import {AppRegistry} from "react-native";
 import {Navigator} from "react-native-deprecated-custom-components";
 import LoginView from "./views/login/LoginView";
 
+import NavigatorView from "./views/navigator/NavigatorView";
+
 class MainComponent extends Component {
     render() {
         return (
@@ -23,4 +25,5 @@ class MainComponent extends Component {
         );
     }
 }
-AppRegistry.registerComponent("MainComponent", () => MainComponent);
+
+AppRegistry.registerComponent("MainComponent", () => NavigatorView);
