@@ -6,7 +6,10 @@ import {
     Image,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity,
+    Dimensions,
+    PixelRatio
 } from "react-native";
 import TabNavigator from "react-native-tab-navigator";
 
@@ -20,6 +23,10 @@ const TAB_PRESS_2 = require("../../resources/images/common/back.png");
 const TAB_PRESS_3 = require("../../resources/images/common/back.png");
 const TAB_PRESS_4 = require("../../resources/images/common/back.png");
 
+var window = Dimensions.get("window");
+var width = window.width;
+var pixelWidth = 1 / PixelRatio.get();
+
 export default class NavigatorView extends Component {
     constructor(props) {
         super(props);
@@ -32,32 +39,43 @@ export default class NavigatorView extends Component {
         }
     }
 
-    renderBadge() {
+    renderView() {
         return (
-            <View style={styles.badgeView}>
-                <Text style={styles.badgeText}>15</Text>
+            <View style={{flex: 1}}>
+                <TouchableOpacity style={{borderBottomWidth: pixelWidth, borderBottomColor: "red", marginLeft: 20}}>
+                    <View>
+                        <Image></Image>
+                    </View>
+                    <View>
+                        <Text>采购进货</Text>
+                        <Text>门店采购进货</Text>
+                    </View>
+                    <View>
+                        <Image></Image>
+                    </View>
+                </TouchableOpacity>
             </View>
         );
     }
 
-    renderTabView(title, tabName, tabContent, isBadge) {
-        var tabNomal;
+    renderTabView(title, tabName) {
+        var tabNormal;
         var tabPress;
         switch (tabName) {
-            case "Home":
-                tabNomal = TAB_NORMAL_1;
+            case "home":
+                tabNormal = TAB_NORMAL_1;
                 tabPress = TAB_PRESS_1;
                 break;
-            case "Video":
-                tabNomal = TAB_NORMAL_2;
+            case "video":
+                tabNormal = TAB_NORMAL_2;
                 tabPress = TAB_PRESS_2;
                 break;
-            case "Follow":
-                tabNomal = TAB_NORMAL_3;
+            case "follow":
+                tabNormal = TAB_NORMAL_3;
                 tabPress = TAB_PRESS_3;
                 break;
-            case "Mine":
-                tabNomal = TAB_NORMAL_4;
+            case "mine":
+                tabNormal = TAB_NORMAL_4;
                 tabPress = TAB_PRESS_4;
                 break;
             default:
@@ -66,25 +84,23 @@ export default class NavigatorView extends Component {
         return (
             <TabNavigator.Item
                 title={title}
-                renderIcon={() => <Image style={styles.tabIcon} source={tabNomal}></Image>}
+                renderIcon={() => <Image style={styles.tabIcon} source={tabNormal}></Image>}
                 renderSelectedIcon={() => <Image style={styles.tabIcon} source={tabPress}></Image>}
                 selected={this.state.selectedTab === tabName}
                 selectedTitleStyle={{color: "#F85959"}}
-                onPress={() => this.handleOnPress(tabName)}
-                renderBadge={this.renderBadge.bind(this)}>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}><Text>{tabContent}</Text></View>
+                onPress={() => this.handleOnPress(tabName)}>
+                {this.renderView()}
             </TabNavigator.Item>
         );
     }
 
     renderTabBarView() {
         return (
-            <TabNavigator
-                tabBarStyle={styles.tab}>
-                {this.renderTabView('头条', 'Home', '头条板块', true)}
-                {this.renderTabView('视频', 'Video', '视频板块', false)}
-                {this.renderTabView('关注', 'Follow', '关注板块', false)}
-                {this.renderTabView('我的', 'Mine', '我的板块', false)}
+            <TabNavigator tabBarStyle={styles.tab}>
+                {this.renderTabView("头条", "home", "头条板块", true)}
+                {this.renderTabView("视频", "video", "视频板块", false)}
+                {this.renderTabView("关注", "follow", "关注板块", false)}
+                {this.renderTabView("我的", "mine", "我的板块", false)}
             </TabNavigator>
         );
     }
