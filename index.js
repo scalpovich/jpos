@@ -17,15 +17,26 @@ import {
 } from "react-native";
 import LoginView from "./views/login/LoginView";
 import Swiper from "react-native-swiper";
+import {StackNavigator} from "react-navigation";
+import ApplicationHandler from "./utils/ApplicationHandler";
 
 const window = Dimensions.get("window");
 const width = window.width;
 const height = window.height;
 const statusBarHeight = StatusBar.currentHeight;
 const pixelWidth = 1 / PixelRatio.get();
+
 class MainComponent extends Component {
     constructor(props) {
         super(props);
+    }
+
+    static navigationOptions = {
+        header: null
+    }
+
+    login() {
+        this["props"]["navigation"]["navigate"]("HomeThree");
     }
 
     render() {
@@ -44,7 +55,7 @@ class MainComponent extends Component {
                     </View>
                 </Swiper>
                 <View style={{height: height - 150 - statusBarHeight, justifyContent: "center", alignItems: "center"}}>
-                    <TouchableOpacity style={styles.loginButton}>
+                    <TouchableOpacity style={styles.loginButton} onPress={this.login.bind(this)}>
                         <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                     </TouchableOpacity>
                 </View>
@@ -53,7 +64,16 @@ class MainComponent extends Component {
     }
 }
 
-AppRegistry.registerComponent("MainComponent", () => MainComponent);
+const Navigator = StackNavigator({
+    Home: {screen: MainComponent},
+    HomeThree: {screen: LoginView}
+}, {
+    initialRouteName: "Home",
+    mode: "card",
+    headerMode: "screen",
+});
+
+AppRegistry.registerComponent("MainComponent", () => Navigator);
 
 const styles = StyleSheet.create({
     swiperItem: {
