@@ -13,26 +13,32 @@ import {
     PixelRatio,
     Platform,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    NativeModules
 } from "react-native";
-import LoginView from "./views/login/LoginView";
 import Swiper from "react-native-swiper";
+import LoginView from "./views/login/LoginView";
 import {StackNavigator} from "react-navigation";
-import ApplicationHandler from "./utils/ApplicationHandler";
+import WelcomeView from "./views/welcome/WelcomeView";
+import HomeView from "./views/main/HomeView";
 
 const window = Dimensions.get("window");
 const width = window.width;
 const height = window.height;
-const statusBarHeight = StatusBar.currentHeight;
 const pixelWidth = 1 / PixelRatio.get();
+const statusBarHeight = StatusBar.currentHeight;
 
 class MainComponent extends Component {
+    static navigationOptions = {
+        header: null
+    }
+
     constructor(props) {
         super(props);
     }
 
-    static navigationOptions = {
-        header: null
+    componentDidMount() {
+
     }
 
     login() {
@@ -64,11 +70,25 @@ class MainComponent extends Component {
     }
 }
 
+let isShowWelcomePage = false;
+NativeModules["CustomNativeModule"]["isShowWelcomePage"]().then((result) => {
+    isShowWelcomePage = result;
+}).catch((error) => {
+    console.log(error["code"]);
+});
+
 const Navigator = StackNavigator({
-    Home: {screen: MainComponent},
-    HomeThree: {screen: LoginView}
+    WelcomeView: {
+        screen: WelcomeView
+    },
+    LoginView: {
+        screen: LoginView
+    },
+    HomeView: {
+        screen: HomeView
+    }
 }, {
-    initialRouteName: "Home",
+    initialRouteName: isShowWelcomePage ? "WelcomeView" : "LoginView",
     mode: "card",
     headerMode: "screen",
 });
@@ -82,7 +102,7 @@ const styles = StyleSheet.create({
     loginButton: {
         width: width - 80,
         height: 40,
-        backgroundColor: "#00AAEE",
+        backgroundColor: "#41D09B",
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 4

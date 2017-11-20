@@ -31,8 +31,14 @@ var width = window.width;
 var pixelWidth = 1 / PixelRatio.get();
 
 export default class LoginView extends Component {
-    componentDidMount() {
-        this.state = {loginName: "", password: ""};
+    static navigationOptions = {
+        header: null
+    };
+
+    constructor(props) {
+        super(props);
+        this.loginName = null;
+        this.password = null;
     }
 
     handlePaidButtonOnPress() {
@@ -98,6 +104,7 @@ export default class LoginView extends Component {
 
     login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
+        NativeModules["CustomNativeModule"]["startScanCodeActivity"]();
         /*NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
             let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};
@@ -222,28 +229,36 @@ export default class LoginView extends Component {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
                 {
-                    Platform.OS == "android" ? <StatusBar backgroundColor="#3A444E"></StatusBar> : null
+                    Platform.OS == "android" ? <StatusBar backgroundColor="#41D09B"></StatusBar> : <View style={{height: 20, backgroundColor: "#41D09B"}}></View>
                 }
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
-                    {/*<Text style={{backgroundColor: "red", height: 40}}>用户名：</Text>*/}
-                    <TextInput style={[styles.loginName]} underlineColorAndroid="transparent" autoFocus={true} keyboardType="numeric" onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入账号"></TextInput>
+                    <TextInput style={[styles.loginName]}
+                               underlineColorAndroid="transparent"
+                               keyboardType="numeric"
+                               onChangeText={(text) => this.loginName = text}
+                               placeholder="请输入账号">
+                    </TextInput>
                 </View>
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
-                    {/*<Text style={{backgroundColor: "red", height: 40}}>密码：</Text>*/}
-                    <TextInput style={[styles.password]} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} placeholder="请输入密码"></TextInput>
+                    <TextInput style={[styles.password]}
+                               underlineColorAndroid="transparent"
+                               secureTextEntry={true}
+                               onChangeText={(text) => this.password = text}
+                               placeholder="请输入密码">
+                    </TextInput>
                 </View>
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                 </TouchableOpacity>
                 <View style={{height: 40, width: width - 80, flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                     <TouchableOpacity onPress={this.toRegisterView.bind(this)}>
-                        <Text style={{fontSize: 12, color: "#0074FA"}}>立即注册</Text>
+                        <Text style={{fontSize: 12, color: "#41D09B"}}>立即注册</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.toForgetPasswordView.bind(this)}>
-                        <Text style={{fontSize: 12, color: "#0074FA"}}>忘记密码？</Text>
+                        <Text style={{fontSize: 12, color: "#41D09B"}}>忘记密码？</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
+                {/*<TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handlePaidButtonOnPress.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>微信支付</Text>
                 </TouchableOpacity>
 
@@ -257,7 +272,7 @@ export default class LoginView extends Component {
 
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.useWeiXinLogin.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>使用微信登录</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
             </View>
@@ -279,15 +294,15 @@ const styles = StyleSheet.create({
     loginName: {
         height: 40,
         width: width - 80,
-        fontSize: 18
+        fontSize: 16
     },
     password: {
         height: 40,
         width: width - 80,
-        fontSize: 18
+        fontSize: 16
     },
     loginButton: {
-        backgroundColor: "#00AAEE",
+        backgroundColor: "#41D09B",
         height: 40,
         width: width - 80,
         borderRadius: 4,

@@ -9,34 +9,41 @@ import {
     StatusBar,
     StyleSheet,
     Text,
-    View
+    View,
+    Platform,
+    TouchableOpacity
 } from "react-native";
+import Swiper from "react-native-swiper";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
-import CommonUtils from "../../utils/CommonUtils";
 
-var window = Dimensions.get("window");
-var width = window.width;
-var height = window.height;
-var pixelWidth = 1 / PixelRatio.get();
+const window = Dimensions.get("window");
+const width = window.width;
+const height = window.height;
+const pixelWidth = 1 / PixelRatio.get();
+const statusBarHeight = StatusBar.currentHeight;
 
-const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
-const rightButton = <Image source={require("../../resources/images/common/add.png")}></Image>;
 export default class HomeView extends Component {
-    back() {
-        this["props"]["navigator"]["pop"]();
+    static navigationOptions = {
+        header: null
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor="#3A444E"></StatusBar>
-                <HeaderComponent handleLeftButtonOnPress={this.back.bind(this)}
-                                 message="总部"
-                                 headerColor="#3A444E"
-                                 leftButton={leftButton}
-                                 rightButton={rightButton}>
-                </HeaderComponent>
-                <View style={{flex: 1, backgroundColor: "#00AAEE"}}></View>
+                <HeaderComponent statusBarColor="#41D09B" headerColor="#41D09B" title="总部"></HeaderComponent>
+                <Swiper loop={true} autoplay={true} style={styles.swiper}>
+                    <View style={styles.swiperItem}>
+                        <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://ubmcmm.baidustatic.com/media/v1/0f0005DL5ZsPBJreEWzsa0.jpg"}}></Image>
+                    </View>
+                    <View style={styles.swiperItem}>
+                        <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://ubmcmm.baidustatic.com/media/v1/0f000ckyT6Y8ZgUHgku-06.jpg"}}></Image>
+                    </View>
+                    <View style={styles.swiperItem}>
+                        <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://image.beekka.com/blog/2015/bg2015031302.jpg"}}></Image>
+                    </View>
+                </Swiper>
+                <View style={{height: height - 200 - statusBarHeight, justifyContent: "center", alignItems: "center"}}>
+                </View>
             </View>
         );
     }
@@ -44,7 +51,12 @@ export default class HomeView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#F5F5F5"
-    }
+        flex: 1
+    },
+    swiper: {
+        height: 200
+    },
+    swiperItem: {
+        height: 200
+    },
 });

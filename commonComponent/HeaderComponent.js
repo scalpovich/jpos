@@ -25,7 +25,7 @@ export default class HeaderComponent extends Component {
     renderAndroidStatusBar() {
         let statusBarColor = this["props"]["statusBarColor"];
         if (!statusBarColor) {
-            statusBarColor = "#41d09b";
+            statusBarColor = "#41D09B";
         }
         return <StatusBar backgroundColor={statusBarColor}></StatusBar>;
     }
@@ -40,7 +40,7 @@ export default class HeaderComponent extends Component {
                     <TouchableOpacity style={styles.leftButton} onPress={this.handleLeftButtonOnPress.bind(this)}>
                         {this["props"]["leftButton"]}
                     </TouchableOpacity>
-                    <Text style={styles.message}>{this["props"]["message"]}</Text>
+                    <Text style={styles.message}>{this["props"]["title"]}</Text>
                     <TouchableOpacity style={styles.rightButton} onPress={this.handleRightButtonOnPress.bind(this)}>
                         {this["props"]["rightButton"]}
                     </TouchableOpacity>
