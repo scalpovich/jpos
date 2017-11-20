@@ -23,7 +23,11 @@ export default class HeaderComponent extends Component {
     }
 
     renderAndroidStatusBar() {
-        return <StatusBar backgroundColor="#3A444E"></StatusBar>
+        let statusBarColor = this["props"]["statusBarColor"];
+        if (!statusBarColor) {
+            statusBarColor = "#41d09b";
+        }
+        return <StatusBar backgroundColor={statusBarColor}></StatusBar>;
     }
 
     render() {
