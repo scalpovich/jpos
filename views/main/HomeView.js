@@ -13,6 +13,7 @@ import {
     Platform,
     TouchableOpacity
 } from "react-native";
+import {TabNavigator} from "react-navigation";
 import Swiper from "react-native-swiper";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 
@@ -22,7 +23,7 @@ const height = window.height;
 const pixelWidth = 1 / PixelRatio.get();
 const statusBarHeight = StatusBar.currentHeight;
 
-export default class HomeView extends Component {
+class HomeView extends Component {
     static navigationOptions = {
         header: null
     }
@@ -42,12 +43,64 @@ export default class HomeView extends Component {
                         <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://image.beekka.com/blog/2015/bg2015031302.jpg"}}></Image>
                     </View>
                 </Swiper>
-                <View style={{height: height - 200 - statusBarHeight, justifyContent: "center", alignItems: "center"}}>
+                <View style={{height: height - 200 - 48 - 44 - statusBarHeight, justifyContent: "center", alignItems: "center"}}>
                 </View>
             </View>
         );
     }
 }
+
+const Tabs = TabNavigator({
+    Home: {
+        screen: HomeView,
+        navigationOptions: {
+            tabBarLabel: "首页",
+            tabBarIcon: ({ tintColor, focused }) => (<Image source={require('../../resources/images/common/home.png')} resizeMode="contain" style={{height: 24}}></Image>)
+        }
+    },
+    Bill: {
+        screen: HomeView,
+    },
+    Me: {
+        screen: HomeView,
+    },
+    Me: {
+        screen: HomeView,
+    },
+    HH: {
+        screen: HomeView,
+    }
+}, {
+    animationEnabled: false,
+    tabBarPosition: "bottom",
+    swipeEnabled: false,
+    backBehavior: "none",
+    tabBarOptions: {
+        activeTintColor: "#41D09B",
+        inactiveTintColor: "black",
+        showIcon: true,
+        indicatorStyle: {
+            height: 0
+        },
+        style: {
+            backgroundColor: "#FFFFFF",
+            height: 48
+        },
+        labelStyle: {
+            fontSize: 12,
+            marginTop: 2
+        },
+        iconStyle: {
+            height: 24,
+            width: 24
+        },
+        tabStyle: {
+            height: 48
+        }
+    }
+});
+
+module.exports = Tabs;
 
 const styles = StyleSheet.create({
     container: {

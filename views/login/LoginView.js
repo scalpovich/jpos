@@ -116,7 +116,7 @@ export default class LoginView extends Component {
             return;
         }
 
-        NativeModules["CustomNativeModule"]["login"](this["loginName"], this["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
+        /*NativeModules["CustomNativeModule"]["login"](this["loginName"], this["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
             let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};
             let length = appAuthorities.length;
@@ -130,7 +130,8 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["code"]);
-        });
+        });*/
+        this["props"]["navigation"]["navigate"]("HomeView");
     }
 
     obtainLastKnownLocation() {
