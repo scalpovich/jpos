@@ -104,8 +104,19 @@ export default class LoginView extends Component {
 
     login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
-        NativeModules["CustomNativeModule"]["startScanCodeActivity"]();
-        /*NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
+        if (!this["loginName"]) {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "用户名不能为空！");
+            return;
+        }
+
+        if (!this["password"]) {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "密码不能为空！");
+            return;
+        }
+
+        NativeModules["CustomNativeModule"]["login"](this["loginName"], this["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
             let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};
             let length = appAuthorities.length;
@@ -118,8 +129,8 @@ export default class LoginView extends Component {
             this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        });*/
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["code"]);
+        });
     }
 
     obtainLastKnownLocation() {
@@ -250,11 +261,11 @@ export default class LoginView extends Component {
                 <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                 </TouchableOpacity>
-                <View style={{height: 40, width: width - 80, flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                    <TouchableOpacity onPress={this.toRegisterView.bind(this)}>
+                <View style={{height: 40, width: width - 80, flexDirection: "row", alignItems: "center"}}>
+                    <TouchableOpacity onPress={this.toRegisterView.bind(this)} style={{flex: 1, height: 40, justifyContent: "center"}}>
                         <Text style={{fontSize: 12, color: "#41D09B"}}>立即注册</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toForgetPasswordView.bind(this)}>
+                    <TouchableOpacity onPress={this.toForgetPasswordView.bind(this)} style={{flex: 1, height: 40, justifyContent: "center", alignItems: "flex-end"}}>
                         <Text style={{fontSize: 12, color: "#41D09B"}}>忘记密码？</Text>
                     </TouchableOpacity>
                 </View>

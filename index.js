@@ -70,7 +70,7 @@ class MainComponent extends Component {
     }
 }
 
-let isShowWelcomePage = false;
+let isShowWelcomePage = true;
 NativeModules["CustomNativeModule"]["isShowWelcomePage"]().then((result) => {
     isShowWelcomePage = result;
 }).catch((error) => {

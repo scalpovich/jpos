@@ -32,9 +32,10 @@ export default class AlertDialogComponent extends Component {
         };
     }
 
-    alert(okText, content, handleOkButtonOnPress) {
+    alert(title, okText, content, handleOkButtonOnPress) {
         if (Platform.OS == "android") {
             this.setState({
+                title: title,
                 type: "alert",
                 okText: okText,
                 handleOkButtonOnPress: () => {
@@ -49,9 +50,10 @@ export default class AlertDialogComponent extends Component {
         }
     }
 
-    confirm(okText, cancelText, content, handleOkButtonOnPress, handleCancelButtonOnPress) {
+    confirm(title, okText, cancelText, content, handleOkButtonOnPress, handleCancelButtonOnPress) {
         if (Platform.OS == "android") {
             this.setState({
+                title: title,
                 type: "confirm",
                 okText: okText,
                 cancelText: cancelText,
@@ -87,6 +89,7 @@ export default class AlertDialogComponent extends Component {
                 <TouchableOpacity style={styles.confirmButtonLeft} onPress={this.state.handleOkButtonOnPress}>
                     <Text style={styles.buttonText}>确定</Text>
                 </TouchableOpacity>
+                <View style={{height: 40, width: pixelWidth, backgroundColor: "#FFFFFF"}}></View>
                 <TouchableOpacity style={styles.confirmButtonRight} onPress={this.state.handleCancelButtonOnPress}>
                     <Text style={styles.buttonText}>取消</Text>
                 </TouchableOpacity>
@@ -102,6 +105,9 @@ export default class AlertDialogComponent extends Component {
                    transparent={true}>
                 <View style={styles.mask}>
                     <View style={styles.container}>
+                        <View style={styles.titlePanel}>
+                            <Text style={styles.titleText}>{this.state.title}</Text>
+                        </View>
                         <View style={styles.contentPanel}>
                             <Text style={styles.contentText}>{this.state.content}</Text>
                         </View>
@@ -122,61 +128,80 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: "#FFFFFF",
-        width: width - 160,
-        height: 120,
+        width: width - 80,
+        height: 160,
         borderRadius: 10
     },
-    contentPanel: {
-        width: width - 160,
-        height: 80,
+    titlePanel: {
+        width: width - 80,
+        height: 40,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         justifyContent: "center",
+        alignItems: "center"
+    },
+    titleText: {
+        color: "black",
+        fontSize: 16,
+        fontWeight: "bold"
+    },
+    contentPanel: {
+        width: width - 80,
+        height: 80,
+        justifyContent: "center",
         alignItems: "center",
-        paddingLeft: 10,
-        paddingRight: 10
+        paddingLeft: 20,
+        paddingRight: 20
     },
     alertButtonPanel: {
-        width: width - 160,
+        width: width - 80,
         height: 40,
         alignItems: "center",
         justifyContent: "center",
-        borderTopColor: "gray",
-        borderTopWidth: pixelWidth
+        borderTopColor: "gray"
     },
     alertButton: {
-        width: width - 160,
-        height: 40 - pixelWidth,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    confirmButtonPanel: {
-        width: width - 160,
+        width: width - 80,
         height: 40,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "#41D09B",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
+    },
+    confirmButtonPanel: {
+        width: width - 80,
+        height: 40,
         borderTopColor: "gray",
-        borderTopWidth: pixelWidth,
-        flexDirection: "row"
+        flexDirection: "row",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
     },
     confirmButtonLeft: {
-        width: (width - 160 - pixelWidth) / 2,
-        height: 40 - pixelWidth,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    confirmButtonRight: {
-        width: (width - 160 - pixelWidth) / 2 + pixelWidth,
-        height: 40 - pixelWidth,
+        width: (width - 80 - pixelWidth) / 2,
+        height: 40,
         alignItems: "center",
         justifyContent: "center",
-        borderLeftWidth: pixelWidth,
-        borderLeftColor: "gray"
+        borderBottomLeftRadius: 10,
+        backgroundColor: "#41D09B",
+    },
+    confirmButtonRight: {
+        width: (width - 80 - pixelWidth) / 2,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        borderLeftColor: "red",
+        borderBottomRightRadius: 10,
+        backgroundColor: "#41D09B"
     },
     contentText: {
-        color: "black"
+        color: "#66666E",
+        fontSize: 15,
+        fontWeight: "bold"
     },
     buttonText: {
-        color: "#0074FA"
+        color: "#FFFFFF",
+        fontSize: 16,
+        fontWeight: "bold"
     }
 });
