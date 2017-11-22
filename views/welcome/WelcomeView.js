@@ -14,6 +14,8 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper";
 import CacheUtils from "../../utils/CacheUtils";
+import DateFormatUtils from "../../utils/DateFormatUtils";
+import DateTimePicker from "react-native-datetime";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -58,7 +60,6 @@ export default class WelcomeView extends Component {
             obtainIpAddress: (parameters) => {
                 return new Promise((resolve, reject) => {
                     NativeModules["CustomNativeModule"]["obtainIpAddress"]((ipAddress) => {
-                        alert(ipAddress + JSON.stringify(parameters))
                         resolve(undefined);
                     }, (error) => {
                         reject(error);
@@ -71,6 +72,9 @@ export default class WelcomeView extends Component {
         while (nextFunctionNameAndParameters) {
             nextFunctionNameAndParameters = await methodChain[nextFunctionNameAndParameters["functionName"]](nextFunctionNameAndParameters["parameters"]);
         }
+        this["refs"]["dateTimePicker"]["showDatePicker"](new Date(), (date) => {
+            alert(DateFormatUtils.formatDate(date));
+        });
     }
 
     render() {
@@ -86,6 +90,7 @@ export default class WelcomeView extends Component {
                         </TouchableOpacity>
                     </View>
                 </Swiper>
+                <DateTimePicker ref="dateTimePicker"></DateTimePicker>
             </View>
         );
     }
