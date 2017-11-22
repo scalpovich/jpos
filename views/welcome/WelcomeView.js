@@ -9,7 +9,8 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    Text
+    Text,
+    NativeModules
 } from "react-native";
 import Swiper from "react-native-swiper";
 import CacheUtils from "../../utils/CacheUtils";
@@ -27,8 +28,49 @@ export default class WelcomeView extends Component {
         super(props);
     }
 
-    startUsing() {
-        this["props"]["navigation"]["navigate"]("LoginView");
+    async startUsing() {
+        // this["props"]["navigation"]["navigate"]("LoginView");
+        let methodChain = {
+            obtainUserInfo: (parameters) => {
+                return new Promise((resolve, reject) => {
+                    NativeModules["CustomNativeModule"]["obtainUserInfo"]((userInfo) => {
+                        let nextFunctionNameAndParameters = {};
+                        if (userInfo["loginName"] == "61011888") {
+                            nextFunctionNameAndParameters = {functionName: "obtainIpAddress", parameters: parameters};
+                        } else {
+                            nextFunctionNameAndParameters = {functionName: "obtainAppAuthorities", parameters: parameters};
+                        }
+                        resolve(nextFunctionNameAndParameters);
+                    }, (error) => {
+                        reject(error);
+                    })
+                });
+            },
+            obtainAppAuthorities: (parameters) => {
+                return new Promise((resolve, reject) => {
+                    NativeModules["CustomNativeModule"]["obtainAppAuthorities"]((appAuthorities) => {
+                        resolve(undefined);
+                    }, (error) => {
+                        reject(error);
+                    })
+                });
+            },
+            obtainIpAddress: (parameters) => {
+                return new Promise((resolve, reject) => {
+                    NativeModules["CustomNativeModule"]["obtainIpAddress"]((ipAddress) => {
+                        alert(ipAddress + JSON.stringify(parameters))
+                        resolve(undefined);
+                    }, (error) => {
+                        reject(error);
+                    })
+                });
+            }
+        };
+
+        let nextFunctionNameAndParameters = await methodChain["obtainUserInfo"]({actionName: "login"});
+        while (nextFunctionNameAndParameters) {
+            nextFunctionNameAndParameters = await methodChain[nextFunctionNameAndParameters["functionName"]](nextFunctionNameAndParameters["parameters"]);
+        }
     }
 
     render() {
