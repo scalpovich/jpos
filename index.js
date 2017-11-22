@@ -13,8 +13,7 @@ import {
     PixelRatio,
     Platform,
     TouchableOpacity,
-    StyleSheet,
-    NativeModules
+    StyleSheet
 } from "react-native";
 import Swiper from "react-native-swiper";
 import LoginView from "./views/login/LoginView";
@@ -71,12 +70,6 @@ class MainComponent extends Component {
 }
 
 let isShowWelcomePage = true;
-NativeModules["CustomNativeModule"]["isShowWelcomePage"]().then((result) => {
-    isShowWelcomePage = result;
-}).catch((error) => {
-    console.log(error["code"]);
-});
-
 const Navigator = StackNavigator({
     WelcomeView: {
         screen: WelcomeView

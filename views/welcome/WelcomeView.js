@@ -28,12 +28,7 @@ export default class WelcomeView extends Component {
     }
 
     startUsing() {
-        // this["props"]["navigation"]["navigate"]("LoginView");
-        CacheUtils.obtainUserInfo().then((userInfo) => {
-            alert(JSON.stringify(userInfo))
-        }).catch((error) => {
-            alert(JSON.stringify(error))
-        })
+        this["props"]["navigation"]["navigate"]("LoginView");
     }
 
     render() {
