@@ -55,7 +55,7 @@ const Tabs = TabNavigator({
         screen: HomeView,
         navigationOptions: {
             tabBarLabel: "首页",
-            tabBarIcon: ({ tintColor, focused }) => (<Image source={require('../../resources/images/common/home.png')} resizeMode="contain" style={{height: 24}}></Image>)
+            tabBarIcon: ({ tintColor, focused }) => (<Image source={require("../../resources/images/common/home.png")} resizeMode="contain" style={{height: 24}}></Image>)
         }
     },
     Bill: {
