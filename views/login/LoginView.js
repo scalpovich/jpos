@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import WebUtils from "../../utils/WebUtils";
 import CacheUtils from "../../utils/CacheUtils";
+import AuthUtils from "../../utils/AuthUtils";
 import PaidSuccessComponent from "../../components/PaidSuccessComponent";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
@@ -44,7 +45,7 @@ export default class LoginView extends Component {
     handlePaidButtonOnPress() {
         var data = null;
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        CacheUtils.findUserInfo().then((userInfo) => {
+        CacheUtils.obtainUserInfo().then((userInfo) => {
             var weiXinPayUnifiedOrderRequestParameters = {
                 tenantId: 7,
                 branchId: 7,
@@ -116,7 +117,7 @@ export default class LoginView extends Component {
             return;
         }
 
-        /*NativeModules["CustomNativeModule"]["login"](this["loginName"], this["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
+        /*AuthUtils.login(this["loginName"], this["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
             let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};
             let length = appAuthorities.length;
@@ -155,7 +156,7 @@ export default class LoginView extends Component {
             if (!obtainOAuthAccessTokenResult["successful"]) {
                 return CommonUtils.reject(obtainOAuthAccessTokenResult["error"]);
             }
-            return NativeModules["CustomNativeModule"]["login"](this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_WEI_XIN);
+            return AuthUtils.login(this["state"]["loginName"], this["state"]["password"], Constants.LOGIN_MODE_WEI_XIN);
         }).then((userInfo) => {
             let appAuthorities = userInfo["appAuthorities"];
             let appAuthorityJsonObject = {};

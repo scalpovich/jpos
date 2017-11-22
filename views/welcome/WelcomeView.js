@@ -12,6 +12,7 @@ import {
     Text
 } from "react-native";
 import Swiper from "react-native-swiper";
+import CacheUtils from "../../utils/CacheUtils";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -27,7 +28,12 @@ export default class WelcomeView extends Component {
     }
 
     startUsing() {
-        this["props"]["navigation"]["navigate"]("LoginView");
+        // this["props"]["navigation"]["navigate"]("LoginView");
+        CacheUtils.obtainUserInfo().then((userInfo) => {
+            alert(JSON.stringify(userInfo))
+        }).catch((error) => {
+            alert(JSON.stringify(error))
+        })
     }
 
     render() {
