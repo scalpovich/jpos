@@ -34,7 +34,8 @@ export default class OrderView extends Component {
                                  headerColor="#41D09B"
                                  title="订单管理"
                                  leftButton={<Image source={require("../../resources/images/common/back.png")}></Image>}
-                                 handleLeftButtonOnPress={() => {this["props"]["navigation"]["goBack"]()}}></HeaderComponent>
+                                 handleLeftButtonOnPress={() => {this["props"]["navigation"]["goBack"]()}}>
+                </HeaderComponent>
                 <View style={styles.contentWrapper}></View>
             </View>
         );

@@ -52,13 +52,13 @@ export default class HomeView extends Component {
                     <View style={{width: width, height: width / 3, flexDirection: "row"}}>
                         <View style={styles.leftMenuView}>
                             <TouchableOpacity style={styles.menu} onPress={this.toSecondLevelMenu.bind(this, "GoodsView")}>
-                                <Image source={require("../../resources/images/common/order.png")}></Image>
+                                <Image source={require("../../resources/images/common/goods.png")}></Image>
                                 <Text style={styles.menuText}>菜品管理</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.centerMenuView}>
                             <TouchableOpacity style={styles.menu}>
-                                <Image source={require("../../resources/images/common/order.png")}></Image>
+                                <Image source={require("../../resources/images/common/store.png")}></Image>
                                 <Text style={styles.menuText}>机构管理</Text>
                             </TouchableOpacity>
                         </View>
