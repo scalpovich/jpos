@@ -81,7 +81,7 @@ const Navigator = StackNavigator({
         screen: HomeView
     }
 }, {
-    initialRouteName: isShowWelcomePage ? "WelcomeView" : "LoginView",
+    initialRouteName: isShowWelcomePage ? "HomeView" : "LoginView",
     mode: "card",
     headerMode: "screen",
 });

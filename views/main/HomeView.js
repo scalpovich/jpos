@@ -84,18 +84,10 @@ const Tabs = TabNavigator({
         },
         style: {
             backgroundColor: "#FFFFFF",
-            height: 48
         },
         labelStyle: {
             fontSize: 12,
-            marginTop: 2
-        },
-        iconStyle: {
-            height: 24,
-            width: 24
-        },
-        tabStyle: {
-            height: 48
+            marginTop: 2,
         }
     }
 });

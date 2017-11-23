@@ -31,7 +31,6 @@ export default class WelcomeView extends Component {
     }
 
     async startUsing() {
-        // this["props"]["navigation"]["navigate"]("LoginView");
         let methodChain = {
             obtainUserInfo: (parameters) => {
                 return new Promise((resolve, reject) => {
@@ -72,9 +71,8 @@ export default class WelcomeView extends Component {
         while (nextFunctionNameAndParameters) {
             nextFunctionNameAndParameters = await methodChain[nextFunctionNameAndParameters["functionName"]](nextFunctionNameAndParameters["parameters"]);
         }
-        this["refs"]["dateTimePicker"]["showDatePicker"](new Date(), (date) => {
-            alert(DateFormatUtils.formatDate(date));
-        });
+        this["refs"]["dateTimePicker"]["showDatePicker"](new Date(), (date) => {});
+        this["props"]["navigation"]["navigate"]("LoginView");
     }
 
     render() {
