@@ -11,7 +11,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    FlatList
 } from "react-native";
 import Swiper from "react-native-swiper";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
@@ -23,6 +24,31 @@ const pixelWidth = 1 / PixelRatio.get();
 const statusBarHeight = StatusBar.currentHeight;
 
 export default class HomeView extends Component {
+    constructor(props){
+        super(props);
+        this.menus = [
+            [
+                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
+                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
+                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
+            ],
+            [
+                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
+                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
+                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
+            ],
+            [
+                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
+                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
+                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
+            ],
+            [
+                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
+                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
+                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
+            ],
+        ];
+    }
     static navigationOptions = {
         header: null
     }
@@ -30,6 +56,40 @@ export default class HomeView extends Component {
     toSecondLevelMenu(secondLevelMenuName) {
         this["props"]["navigation"]["navigate"](secondLevelMenuName);
     }
+
+    renderItem(row) {
+        let menus = row["item"];
+        let menuViews = [];
+        let length = menus.length;
+        for (let menuIndex = 0; menuIndex < length; menuIndex++) {
+            let menu = menus[menuIndex];
+            let styleKey = null;
+            if (menuIndex == 0) {
+                styleKey = "leftMenuView";
+            } else if (menuIndex == 1) {
+                styleKey = "centerMenuView";
+            } else if (menuIndex == 2) {
+                styleKey = "rightMenuView";
+            }
+            menuViews.push(
+                <View style={styles[styleKey]} key={menuIndex}>
+                    <TouchableOpacity style={styles.menu} onPress={this.toSecondLevelMenu.bind(this, menu["componentName"])}>
+                        <Image source={menu["iconSource"]}></Image>
+                        <Text style={styles.menuText}>{menu["name"]}</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+        return (
+            <View style={styles.menuRowView}>
+                {menuViews}
+            </View>
+        );
+    }
+
+    keyExtractor(item, index) {
+        return index;
+    };
 
     render() {
         return (
@@ -48,28 +108,7 @@ export default class HomeView extends Component {
                         </View>
                     </Swiper>
                 </View>
-                <ScrollView style={styles.menuView}>
-                    <View style={{width: width, height: width / 3, flexDirection: "row"}}>
-                        <View style={styles.leftMenuView}>
-                            <TouchableOpacity style={styles.menu} onPress={this.toSecondLevelMenu.bind(this, "GoodsView")}>
-                                <Image source={require("../../resources/images/common/goods.png")}></Image>
-                                <Text style={styles.menuText}>菜品管理</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.centerMenuView}>
-                            <TouchableOpacity style={styles.menu}>
-                                <Image source={require("../../resources/images/common/store.png")}></Image>
-                                <Text style={styles.menuText}>机构管理</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.rightMenuView}>
-                            <TouchableOpacity style={styles.menu} onPress={this.toSecondLevelMenu.bind(this, "OrderView")}>
-                                <Image source={require("../../resources/images/common/order.png")}></Image>
-                                <Text style={styles.menuText}>订单管理</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </ScrollView>
+                <FlatList style={styles.menuView} data={this.menus} renderItem={this.renderItem.bind(this)} keyExtractor={this.keyExtractor.bind(this)}></FlatList>
             </View>
         );
     }
@@ -87,6 +126,11 @@ const styles = StyleSheet.create({
     },
     menuView: {
         flex: 1
+    },
+    menuRowView: {
+        width: width,
+        height: width / 3,
+        flexDirection: "row"
     },
     leftMenuView: {
         width: width / 3 - 2 * pixelWidth / 3,
