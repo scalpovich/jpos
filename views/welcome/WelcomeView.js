@@ -15,7 +15,7 @@ import {
 import Swiper from "react-native-swiper";
 import CacheUtils from "../../utils/CacheUtils";
 import DateFormatUtils from "../../utils/DateFormatUtils";
-import DateTimePicker from "react-native-datetime";
+import DateTimePicker from "../../plugins/react-native-datetime/index";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -65,7 +65,7 @@ export default class WelcomeView extends Component {
                         reject(error);
                     })
                 });
-            }
+            },
         };
 
         let nextFunctionNameAndParameters = await methodChain["obtainUserInfo"]({actionName: "login"});
