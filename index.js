@@ -21,8 +21,9 @@ import {StackNavigator} from "react-navigation";
 import WelcomeView from "./views/welcome/WelcomeView";
 import HomeView from "./views/main/HomeView";
 import GoodsView from "./views/goods/GoodsView";
+import GoodsListView from "./views/goods/GoodsListView";
+import RequireGoodsOrderDetailView from "./views/goods/RequireGoodsOrderDetailView";
 import OrderView from "./views/order/OrderView";
-
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -88,6 +89,12 @@ const Navigator = StackNavigator({
     },
     OrderView: {
         screen: OrderView
+    },
+    GoodsListView: {
+        screen: GoodsListView
+    },
+    RequireGoodsOrderDetailView: {
+        screen: RequireGoodsOrderDetailView
     }
 }, {
     initialRouteName: isShowWelcomePage ? "HomeView" : "LoginView",

@@ -28,7 +28,7 @@ export default class GoodsView extends Component {
         super(props);
     }
 
-    toSecondLevelMenu(secondLevelMenuName) {
+    toOtherView(secondLevelMenuName) {
         this["props"]["navigation"]["navigate"](secondLevelMenuName);
     }
 
@@ -44,7 +44,7 @@ export default class GoodsView extends Component {
                 <ScrollView style={styles.menuView}>
                     <View style={{width: width, height: width / 3, flexDirection: "row"}}>
                         <View style={styles.leftMenuView}>
-                            <TouchableOpacity style={styles.menu} onPress={this.toSecondLevelMenu.bind(this, "GoodsView")}>
+                            <TouchableOpacity style={styles.menu} onPress={this.toOtherView.bind(this, "GoodsListView")}>
                                 <Image source={require("../../resources/images/common/goods.png")}></Image>
                                 <Text style={styles.menuText}>菜品档案</Text>
                             </TouchableOpacity>
@@ -56,7 +56,7 @@ export default class GoodsView extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.rightMenuView}>
-                            <TouchableOpacity style={styles.menu} onPress={this.toSecondLevelMenu.bind(this, "OrderView")}>
+                            <TouchableOpacity style={styles.menu} onPress={this.toOtherView.bind(this, "OrderView")}>
                                 <Image source={require("../../resources/images/common/package.png")}></Image>
                                 <Text style={styles.menuText}>套餐管理</Text>
                             </TouchableOpacity>

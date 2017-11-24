@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     leftButton: {
         position: "absolute",
         top: 2,
-        left: 10,
+        left: 0,
         height: 40,
         width: 40,
         justifyContent: "center",
