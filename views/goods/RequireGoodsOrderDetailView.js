@@ -14,13 +14,14 @@ import {
     ScrollView
 } from "react-native";
 
+import HeaderComponent from "../../commonComponent/HeaderComponent";
+import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
+
 const window = Dimensions.get("window");
 const width = window.width;
 const height = window.height;
 const pixelWidth = 1 / PixelRatio.get();
 const statusBarHeight = StatusBar.currentHeight;
-
-import HeaderComponent from "../../commonComponent/HeaderComponent";
 
 export default class RequireGoodsOrderDetailView extends Component {
     static navigationOptions = {
@@ -29,6 +30,10 @@ export default class RequireGoodsOrderDetailView extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    examineRequireGoodsOrder() {
+        this["refs"]["alertDialogComponent"]["confirm"]("提示", "确定", "取消", "确定审核该要货单？");
     }
 
     render() {
@@ -76,7 +81,7 @@ export default class RequireGoodsOrderDetailView extends Component {
                         <Text style={styles.itemValue}>125.30</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.operationButton}>
+                    <TouchableOpacity style={styles.operationButton} onPress={this.examineRequireGoodsOrder.bind(this)}>
                         <Text style={styles.operationButtonText}>审核</Text>
                     </TouchableOpacity>
 
@@ -97,6 +102,7 @@ export default class RequireGoodsOrderDetailView extends Component {
                         <Text style={styles.paidButtonText}>付款</Text>
                     </TouchableOpacity>
                 </View>
+                <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
             </View>
         );
     }

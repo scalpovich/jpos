@@ -76,7 +76,7 @@ export default class AlertDialogComponent extends Component {
     renderAlertDialog() {
         return (
             <View style={styles.alertButtonPanel}>
-                <TouchableOpacity style={styles.alertButton} onPress={this.state.handleOkButtonOnPress}>
+                <TouchableOpacity style={styles.alertButton} onPress={this.state.handleOkButtonOnPress} activeOpacity={0.8}>
                     <Text style={styles.buttonText}>{this.state.okText}</Text>
                 </TouchableOpacity>
             </View>
@@ -86,11 +86,11 @@ export default class AlertDialogComponent extends Component {
     renderConfirmDialog() {
         return (
             <View style={styles.confirmButtonPanel}>
-                <TouchableOpacity style={styles.confirmButtonLeft} onPress={this.state.handleOkButtonOnPress}>
+                <TouchableOpacity style={styles.confirmButtonLeft} onPress={this.state.handleOkButtonOnPress} activeOpacity={0.8}>
                     <Text style={styles.buttonText}>确定</Text>
                 </TouchableOpacity>
                 <View style={{height: 40, width: pixelWidth, backgroundColor: "#FFFFFF"}}></View>
-                <TouchableOpacity style={styles.confirmButtonRight} onPress={this.state.handleCancelButtonOnPress}>
+                <TouchableOpacity style={styles.confirmButtonRight} onPress={this.state.handleCancelButtonOnPress} activeOpacity={0.8}>
                     <Text style={styles.buttonText}>取消</Text>
                 </TouchableOpacity>
             </View>
