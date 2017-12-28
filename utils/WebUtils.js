@@ -2,6 +2,8 @@
  * Created by liuyandong on 2017/10/21.
  */
 import Constants from "../constants/Constants"
+import {NativeModules} from "react-native";
+
 const APP_API_SERVICE_URL = "http://192.168.31.200:8989";
 export default class WebUtils {
     static doGetAsync(serviceName, controllerName, actionName, accessToken, requestParameters) {
@@ -109,6 +111,26 @@ export default class WebUtils {
             }
         }).catch((error) => {
             return Promise.reject({code: "网络错误！", message: "网络错误！"});
+        });
+    }
+
+    static doGetSignature(requestParameters) {
+        return new Promise((resolve, reject) => {
+            NativeModules["CustomNativeModule"]["doGetSignature"](requestParameters, (result) => {
+                resolve(result);
+            },(error) => {
+                reject(error);
+            });
+        });
+    }
+
+    static doPostSignature(requestParameters) {
+        return new Promise((resolve, reject) => {
+            NativeModules["CustomNativeModule"]["doPostSignature"](requestParameters, (result) => {
+                resolve(result);
+            },(error) => {
+                reject(error);
+            });
         });
     }
 }

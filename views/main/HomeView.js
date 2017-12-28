@@ -11,11 +11,12 @@ import {
     Text,
     View,
     TouchableOpacity,
-    ScrollView,
+    NativeModules,
     FlatList
 } from "react-native";
 import Swiper from "react-native-swiper";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
+import WebUtils from "../../utils/WebUtils";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -91,10 +92,22 @@ export default class HomeView extends Component {
         return index;
     };
 
+    login() {
+        WebUtils.doGetSignature().then((result) => {
+            alert(JSON.stringify(result))
+        })
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <HeaderComponent statusBarColor="#41D09B" headerColor="#41D09B" title="总部"></HeaderComponent>
+                <HeaderComponent statusBarColor="#41D09B"
+                                 headerColor="#41D09B"
+                                 title="总部"
+                                 leftButton={<Image source={require("../../resources/images/common/back.png")}></Image>}
+                                 handleLeftButtonOnPress={this.login.bind(this)}
+                                 rightButton={<Image source={require("../../resources/images/common/search.png")}></Image>}
+                                 handleRightButtonOnPress={this.login.bind(this)}></HeaderComponent>
                 <View style={styles.swiperView}>
                     <Swiper loop={true} autoplay={true} style={styles.swiper}>
                         <View style={styles.swiperItem}>
