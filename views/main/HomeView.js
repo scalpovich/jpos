@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
+import ApplicationHandler from "../../utils/ApplicationHandler";
 import WebUtils from "../../utils/WebUtils";
 
 const window = Dimensions.get("window");
@@ -92,10 +93,16 @@ export default class HomeView extends Component {
         return index;
     };
 
-    login() {
-        WebUtils.doGetSignature().then((result) => {
-            alert(JSON.stringify(result))
-        })
+    startOrderService() {
+        ApplicationHandler.initPos().then((result) => {
+            console.log(result)
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    stopOrderService() {
+        // NativeModules["CustomNativeModule"]["stopOrderService"]();
     }
 
     render() {
@@ -105,9 +112,9 @@ export default class HomeView extends Component {
                                  headerColor="#41D09B"
                                  title="总部"
                                  leftButton={<Image source={require("../../resources/images/common/back.png")}></Image>}
-                                 handleLeftButtonOnPress={this.login.bind(this)}
+                                 handleLeftButtonOnPress={this.startOrderService.bind(this)}
                                  rightButton={<Image source={require("../../resources/images/common/search.png")}></Image>}
-                                 handleRightButtonOnPress={this.login.bind(this)}></HeaderComponent>
+                                 handleRightButtonOnPress={this.stopOrderService.bind(this)}></HeaderComponent>
                 <View style={styles.swiperView}>
                     <Swiper loop={true} autoplay={true} style={styles.swiper}>
                         <View style={styles.swiperItem}>
