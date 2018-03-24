@@ -27,13 +27,17 @@ var pixelWidth = 1 / PixelRatio.get();
 
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
 export default class ForgetPasswordView extends Component {
+    static navigationOptions = {
+        header: null
+    };
+
     constructor(props) {
         super(props);
         this["state"] = {phoneNumber: ""};
     }
 
     back() {
-        this["props"]["navigator"]["pop"]();
+        this["props"]["navigation"]["goBack"]();
     }
 
     handlePhoneNumberOnChangeText(text) {
@@ -44,25 +48,11 @@ export default class ForgetPasswordView extends Component {
         var pattern = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
         let phoneNumber = this["state"]["phoneNumber"];
         if (!pattern.test(phoneNumber)) {
-            this["refs"]["alertDialogComponent"]["alert"]("确定", "请输入正确的手机号码！");
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "请输入正确的手机号码！");
             return;
         }
 
-        this["props"]["navigator"]["push"]({component: InputVerificationCodeView, parameters: {phoneNumber: phoneNumber}});
-
-        /*this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        let sendSmsRequestParameters = {
-            phoneNumber: this["state"]["phoneNumber"]
-        };
-        WebUtils.doPostAsync(Constants.SERVICE_NAME_PLATFORM, "sms", "sendSms", null, sendSmsRequestParameters).then((sendSmsResult) => {
-            if (!sendSmsResult["successful"]) {
-                return CommonUtils.reject(sendSmsResult["error"]);
-            }
-            this["props"]["navigator"]["push"]({component: CommonUtils});
-        }).catch((error) => {
-            this["refs"]["loadingToastComponent"]["hide"]("加载中...");
-            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        });*/
+        this["props"]["navigation"]["navigate"]("InputVerificationCodeView");
     }
 
     render() {

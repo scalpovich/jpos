@@ -93,12 +93,8 @@ export default class HomeView extends Component {
         return index;
     };
 
-    startOrderService() {
-        ApplicationHandler.initPos().then((result) => {
-            console.log(result)
-        }).catch((error) => {
-            console.log(error);
-        });
+    back() {
+        this["props"]["navigation"]["goBack"]();
     }
 
     stopOrderService() {
@@ -108,13 +104,7 @@ export default class HomeView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <HeaderComponent statusBarColor="#41D09B"
-                                 headerColor="#41D09B"
-                                 title="总部"
-                                 leftButton={<Image source={require("../../resources/images/common/back.png")}></Image>}
-                                 handleLeftButtonOnPress={this.startOrderService.bind(this)}
-                                 rightButton={<Image source={require("../../resources/images/common/search.png")}></Image>}
-                                 handleRightButtonOnPress={this.stopOrderService.bind(this)}></HeaderComponent>
+                <HeaderComponent statusBarColor="#41D09B" headerColor="#41D09B" title="总部"></HeaderComponent>
                 <View style={styles.swiperView}>
                     <Swiper loop={true} autoplay={true} style={styles.swiper}>
                         <View style={styles.swiperItem}>

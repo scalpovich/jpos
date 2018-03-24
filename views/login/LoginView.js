@@ -7,13 +7,13 @@ import {
     Dimensions,
     NativeModules,
     PixelRatio,
+    Platform,
     StatusBar,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View,
-    Platform
+    View
 } from "react-native";
 import WebUtils from "../../utils/WebUtils";
 import CacheUtils from "../../utils/CacheUtils";
@@ -26,6 +26,7 @@ import HomeView from "../main/HomeView";
 import ForgetPasswordView from "./ForgetPasswordView";
 import RegisterView from "./RegisterView";
 import Constants from "../../constants/Constants";
+import ApplicationHandler from "../../utils/ApplicationHandler";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -116,23 +117,31 @@ export default class LoginView extends Component {
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "密码不能为空！");
             return;
         }
+        this["props"]["navigation"]["navigate"]("HomeView");
+    }
 
-        /*AuthUtils.login(this["loginName"], this["password"], Constants.LOGIN_MODE_USER).then((userInfo) => {
-            let appAuthorities = userInfo["appAuthorities"];
-            let appAuthorityJsonObject = {};
-            let length = appAuthorities.length;
-            for (let index = 0; index < length; index++) {
-                let appAuthority = appAuthorities[index];
-                appAuthorityJsonObject[appAuthority["serviceName"] + "_" + appAuthority["controllerName"] + "_" + appAuthority["actionName"]] = appAuthority;
-            }
-            CommonUtils.appAuthorities = appAuthorityJsonObject;
+    initPos() {
+        this["refs"]["loadingToastComponent"]["show"]("登录中...");
+        var loginName = this["loginName"];
+        if (!loginName) {
             this["refs"]["loadingToastComponent"]["hide"]();
-            this["props"]["navigator"]["push"]({component: HomeView});
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "用户名不能为空！");
+            return;
+        }
+
+        var password = this["password"];
+        if (!password) {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "密码不能为空！");
+            return;
+        }
+        ApplicationHandler.initPos(loginName, password).then((result) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["props"]["navigation"]["navigate"]("HomeView");
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["code"]);
-        });*/
-        this["props"]["navigation"]["navigate"]("HomeView");
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["error"]);
+        })
     }
 
     obtainLastKnownLocation() {
@@ -169,7 +178,7 @@ export default class LoginView extends Component {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["props"]["navigator"]["push"]({component: HomeView});
         }).catch((error) => {
-            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["error"]);
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
         });
     }
@@ -206,11 +215,11 @@ export default class LoginView extends Component {
     }
 
     toForgetPasswordView() {
-        this["props"]["navigator"]["push"]({component: ForgetPasswordView});
+        this["props"]["navigation"]["navigate"]("ForgetPasswordView");
     }
 
     toRegisterView() {
-        this["props"]["navigator"]["push"]({component: RegisterView});
+        this["props"]["navigation"]["navigate"]("RegisterView");
     }
 
     handleAlipayButtonOnPress() {
@@ -242,7 +251,8 @@ export default class LoginView extends Component {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
                 {
-                    Platform.OS == "android" ? <StatusBar backgroundColor="#41D09B"></StatusBar> : <View style={{height: 20, backgroundColor: "#41D09B"}}></View>
+                    Platform.OS == "android" ? <StatusBar backgroundColor="#41D09B"></StatusBar> :
+                        <View style={{height: 20, backgroundColor: "#41D09B"}}></View>
                 }
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     <TextInput style={[styles.loginName]}
@@ -260,7 +270,7 @@ export default class LoginView extends Component {
                                placeholder="请输入密码">
                     </TextInput>
                 </View>
-                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.initPos.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                 </TouchableOpacity>
                 <View style={{height: 40, width: width - 80, flexDirection: "row", alignItems: "center"}}>

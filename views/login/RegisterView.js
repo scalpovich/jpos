@@ -24,8 +24,12 @@ var pixelWidth = 1 / PixelRatio.get();
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
 const rightButton = <Image source={require("../../resources/images/common/add.png")}></Image>;
 export default class RegisterView extends Component {
+    static navigationOptions = {
+        header: null
+    };
+
     back() {
-        this["props"]["navigator"]["pop"]();
+        this["props"]["navigation"]["goBack"]();
     }
 
     render() {

@@ -24,14 +24,17 @@ var pixelWidth = 1 / PixelRatio.get();
 
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
 export default class SetNewPasswordView extends Component {
+    static navigationOptions = {
+        header: null
+    };
+
     back() {
-        this["props"]["navigator"]["pop"]();
+        this["props"]["navigation"]["goBack"]();
     }
 
     handleNextStepOnPress() {
-        // this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        this["refs"]["alertDialogComponent"]["alert"]("确定", "重置密码成功！", () => {
-            this["props"]["navigator"]["push"]({component: LoginView});
+        this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "重置密码成功！", () => {
+            this["props"]["navigation"]["navigate"]("LoginView");
         });
     }
 

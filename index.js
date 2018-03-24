@@ -24,6 +24,10 @@ import GoodsView from "./views/goods/GoodsView";
 import GoodsListView from "./views/goods/GoodsListView";
 import RequireGoodsOrderDetailView from "./views/goods/RequireGoodsOrderDetailView";
 import OrderView from "./views/order/OrderView";
+import ForgetPasswordView from "./views/login/ForgetPasswordView";
+import RegisterView from "./views/login/RegisterView";
+import InputVerificationCodeView from "./views/login/InputVerificationCodeView";
+import SetNewPasswordView from "./views/login/SetNewPasswordView";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -73,7 +77,7 @@ class MainComponent extends Component {
     }
 }
 
-let isShowWelcomePage = true;
+let isShowWelcomePage = false;
 const Navigator = StackNavigator({
     WelcomeView: {
         screen: WelcomeView
@@ -95,6 +99,18 @@ const Navigator = StackNavigator({
     },
     RequireGoodsOrderDetailView: {
         screen: RequireGoodsOrderDetailView
+    },
+    ForgetPasswordView: {
+        screen: ForgetPasswordView
+    },
+    RegisterView: {
+        screen: RegisterView
+    },
+    InputVerificationCodeView: {
+        screen: InputVerificationCodeView
+    },
+    SetNewPasswordView: {
+        screen: SetNewPasswordView
     }
 }, {
     initialRouteName: isShowWelcomePage ? "HomeView" : "LoginView",

@@ -26,63 +26,25 @@ var pixelWidth = 1 / PixelRatio.get();
 
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
 export default class InputVerificationCodeView extends Component {
+    static navigationOptions = {
+        header: null
+    };
+
     constructor(props) {
         super(props);
         this["state"] = {verificationCode: ["", "", "", ""]};
     }
-    back() {
-        this["props"]["navigator"]["pop"]();
-    }
 
-    /*handleVerificationCodeOnChangeText(index, text) {
-        if (text) {
-            switch(index) {
-                case 0:
-                    this["refs"]["secondVerificationCode"]["focus"]();
-                    break;
-                case 1:
-                    this["refs"]["thirdVerificationCode"]["focus"]();
-                    break;
-                case 2:
-                    this["refs"]["fourthVerificationCode"]["focus"]();
-                    break;
-            }
-        } else {
-            switch(index) {
-                case 1:
-                    this["refs"]["firstVerificationCode"]["focus"]();
-                    break;
-                case 2:
-                    this["refs"]["secondVerificationCode"]["focus"]();
-                    break;
-                case 3:
-                    this["refs"]["thirdVerificationCode"]["focus"]();
-                    break;
-            }
-        }
-        let verificationCode = this["state"]["verificationCode"];
-        verificationCode[index] = text;
-        this["setState"]({verificationCode: verificationCode});
-    }*/
+    back() {
+        this["props"]["navigation"]["goBack"]();
+    }
 
     handleVerificationCodeOnChangeText(text) {
         this["setState"]({verificationCode: text});
     }
 
     handleNextStepOnPress() {
-        /*let checkVerificationCodeRequestParameters = {
-            phoneNumber: this["props"]["phoneNumber"],
-            verificationCode: this["state"]["verificationCode"]["join"]("")
-        };
-        this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        WebUtils.doGetAsync(Constants.SERVICE_NAME_PLATFORM, "", "", null, checkVerificationCodeRequestParameters).then((checkVerificationCodeResult) => {
-            alert(JSON.stringify(checkVerificationCodeResult));
-            this["props"]["navigator"]["push"]({component: SetNewPasswordView});
-        }).catch((error) => {
-            this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        });*/
-        this["props"]["navigator"]["push"]({component: SetNewPasswordView});
+        this["props"]["navigation"]["navigate"]("SetNewPasswordView");
     }
 
     render() {
@@ -98,37 +60,6 @@ export default class InputVerificationCodeView extends Component {
                     <View style={{marginTop: 20, marginLeft: 20}}>
                         <Text style={{color: "black", fontSize: 25}}>请输短信验证码</Text>
                     </View>
-                    {/*<View style={styles.verificationCodeView}>
-                        <TextInput style={[styles.verificationCodeInput]}
-                                   underlineColorAndroid="transparent"
-                                   autoFocus={true}
-                                   keyboardType="numeric"
-                                   ref="firstVerificationCode"
-                                   maxLength={1}
-                                   onChangeText={this.handleVerificationCodeOnChangeText.bind(this, 0)}>
-                        </TextInput>
-                        <TextInput style={[styles.verificationCodeInput]}
-                                   underlineColorAndroid="transparent"
-                                   keyboardType="numeric"
-                                   ref="secondVerificationCode"
-                                   maxLength={1}
-                                   onChangeText={this.handleVerificationCodeOnChangeText.bind(this, 1)}>
-                        </TextInput>
-                        <TextInput style={[styles.verificationCodeInput]}
-                                   underlineColorAndroid="transparent"
-                                   keyboardType="numeric"
-                                   ref="thirdVerificationCode"
-                                   maxLength={1}
-                                   onChangeText={this.handleVerificationCodeOnChangeText.bind(this, 2)}>
-                        </TextInput>
-                        <TextInput style={[styles.verificationCodeInput]}
-                                   underlineColorAndroid="transparent"
-                                   keyboardType="numeric"
-                                   ref="fourthVerificationCode"
-                                   maxLength={1}
-                                   onChangeText={this.handleVerificationCodeOnChangeText.bind(this, 3)}>
-                        </TextInput>
-                    </View>*/}
                     <View style={styles.verificationCodeView}>
                         <TextInput style={[styles.verificationCodeInput]}
                                    underlineColorAndroid="transparent"
@@ -155,21 +86,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#F5F5F5"
     },
-    /*verificationCodeView: {
-        marginTop: 20,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        width: width - 80
-    },
-    verificationCodeInput: {
-        height: 40,
-        width: (width - 80) * 2 / 11,
-        borderWidth: pixelWidth,
-        borderColor: "gray",
-        fontSize: 18,
-        textAlign: "center",
-        borderRadius: 4
-    },*/
     verificationCodeView: {
         borderBottomWidth: pixelWidth,
         borderBottomColor: "gray",
