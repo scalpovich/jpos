@@ -1,7 +1,6 @@
 /**
  * Created by liuyandong on 2017/10/22.
  */
-import Constants from "../constants/Constants";
 import {NativeModules} from "react-native";
 
 export default class CommonUtils {

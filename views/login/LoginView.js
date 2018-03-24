@@ -106,18 +106,26 @@ export default class LoginView extends Component {
 
     login() {
         this["refs"]["loadingToastComponent"]["show"]("登录中...");
-        if (!this["loginName"]) {
+        var loginName = this["loginName"];
+        if (!loginName) {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "用户名不能为空！");
             return;
         }
 
-        if (!this["password"]) {
+        var password = this["password"];
+        if (!password) {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "密码不能为空！");
             return;
         }
-        this["props"]["navigation"]["navigate"]("HomeView");
+        AuthUtils.login(loginName, password, Constants.LOGIN_MODE_USER).then((result) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["props"]["navigation"]["navigate"]("HomeView");
+        }).catch((error) => {
+            this["refs"]["loadingToastComponent"]["hide"]();
+            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["message"]);
+        });
     }
 
     initPos() {
@@ -141,7 +149,7 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["error"]);
-        })
+        });
     }
 
     obtainLastKnownLocation() {
@@ -251,8 +259,7 @@ export default class LoginView extends Component {
         return (
             <View style={[styles.container, styles.justifyContentCenter, styles.alignItemsCenter]}>
                 {
-                    Platform.OS == "android" ? <StatusBar backgroundColor="#41D09B"></StatusBar> :
-                        <View style={{height: 20, backgroundColor: "#41D09B"}}></View>
+                    Platform.OS == "android" ? <StatusBar backgroundColor="#41D09B"></StatusBar> : <View style={{height: 20, backgroundColor: "#41D09B"}}></View>
                 }
                 <View style={{borderBottomWidth: pixelWidth, borderBottomColor: "gray", flexDirection: "row"}}>
                     <TextInput style={[styles.loginName]}
@@ -270,7 +277,7 @@ export default class LoginView extends Component {
                                placeholder="请输入密码">
                     </TextInput>
                 </View>
-                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.initPos.bind(this)}>
+                <TouchableOpacity style={[styles.loginButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.login.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
                 </TouchableOpacity>
                 <View style={{height: 40, width: width - 80, flexDirection: "row", alignItems: "center"}}>

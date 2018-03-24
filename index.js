@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper";
 import LoginView from "./views/login/LoginView";
-import {StackNavigator} from "react-navigation";
+import {StackNavigator, TabNavigator} from "react-navigation";
 import WelcomeView from "./views/welcome/WelcomeView";
 import HomeView from "./views/main/HomeView";
 import GoodsView from "./views/goods/GoodsView";
@@ -28,6 +28,7 @@ import ForgetPasswordView from "./views/login/ForgetPasswordView";
 import RegisterView from "./views/login/RegisterView";
 import InputVerificationCodeView from "./views/login/InputVerificationCodeView";
 import SetNewPasswordView from "./views/login/SetNewPasswordView";
+import PersonalView from "./views/personal/PersonalView";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -118,7 +119,59 @@ const Navigator = StackNavigator({
     headerMode: "screen",
 });
 
-AppRegistry.registerComponent("MainComponent", () => Navigator);
+const Tabs = TabNavigator({
+    Home: {
+        screen: LoginView,
+        navigationOptions: {  // 也可以写在组件的static navigationOptions内
+            tabBarLabel: "点餐",
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+        }
+    },
+    Bill: {
+        screen: LoginView,
+        navigationOptions: {
+            tabBarLabel: "订单",
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+        }
+    },
+    AA: {
+        screen: LoginView,
+        navigationOptions: {
+            tabBarLabel: "菜品",
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+        }
+    },
+    Personal: {
+        screen: PersonalView,
+        navigationOptions: {
+            tabBarLabel: "我的",
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+        }
+    }
+}, {
+    animationEnabled: false,
+    tabBarPosition: "bottom",
+    swipeEnabled: false,
+    backBehavior: "none",
+    tabBarOptions: {
+        activeTintColor: "#41D09B",
+        inactiveTintColor: "#999999",
+        showIcon: true,
+        indicatorStyle: {
+            height: 0
+        },
+        style: {
+            backgroundColor: "#FFFFFF",
+            height: 50
+        },
+        labelStyle: {
+            fontSize: 10,
+            marginTop: 3
+        },
+    },
+});
+
+AppRegistry.registerComponent("MainComponent", () => Tabs);
 
 const styles = StyleSheet.create({
     swiperItem: {
