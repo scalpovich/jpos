@@ -12,6 +12,14 @@ var width = window.width;
 var pixelWidth = 1 / PixelRatio.get();
 
 export default class PersonalView extends Component {
+    static navigationOptions = {
+        header: null
+    }
+
+    constructor(props) {
+        super(props);
+    }
+
     logout() {
         this["refs"]["alertDialogComponent"]["confirm"]("提示", "确定", "取消", "确定退出？", () => {
             AuthUtils.logout().then((result) => {

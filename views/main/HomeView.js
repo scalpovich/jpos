@@ -26,6 +26,10 @@ const pixelWidth = 1 / PixelRatio.get();
 const statusBarHeight = StatusBar.currentHeight;
 
 export default class HomeView extends Component {
+    static navigationOptions = {
+        header: null
+    }
+
     constructor(props){
         super(props);
         this.menus = [
@@ -33,26 +37,8 @@ export default class HomeView extends Component {
                 {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
                 {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
                 {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
-            ],
-            [
-                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
-                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
-                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
-            ],
-            [
-                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
-                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
-                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
-            ],
-            [
-                {name: "菜品管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/goods.png")},
-                {name: "机构管理", componentName: "GoodsView", iconSource: require("../../resources/images/common/store.png")},
-                {name: "订单管理", componentName: "OrderView", iconSource: require("../../resources/images/common/order.png")},
-            ],
+            ]
         ];
-    }
-    static navigationOptions = {
-        header: null
     }
 
     toSecondLevelMenu(secondLevelMenuName) {
@@ -95,10 +81,6 @@ export default class HomeView extends Component {
 
     back() {
         this["props"]["navigation"]["goBack"]();
-    }
-
-    stopOrderService() {
-        // NativeModules["CustomNativeModule"]["stopOrderService"]();
     }
 
     render() {

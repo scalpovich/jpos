@@ -78,51 +78,10 @@ class MainComponent extends Component {
     }
 }
 
-let isShowWelcomePage = false;
-const Navigator = StackNavigator({
-    WelcomeView: {
-        screen: WelcomeView
-    },
-    LoginView: {
-        screen: LoginView
-    },
-    HomeView: {
-        screen: HomeView
-    },
-    GoodsView: {
-        screen: GoodsView
-    },
-    OrderView: {
-        screen: OrderView
-    },
-    GoodsListView: {
-        screen: GoodsListView
-    },
-    RequireGoodsOrderDetailView: {
-        screen: RequireGoodsOrderDetailView
-    },
-    ForgetPasswordView: {
-        screen: ForgetPasswordView
-    },
-    RegisterView: {
-        screen: RegisterView
-    },
-    InputVerificationCodeView: {
-        screen: InputVerificationCodeView
-    },
-    SetNewPasswordView: {
-        screen: SetNewPasswordView
-    }
-}, {
-    initialRouteName: isShowWelcomePage ? "HomeView" : "LoginView",
-    mode: "card",
-    headerMode: "screen",
-});
-
-const Tabs = TabNavigator({
+const Tab = TabNavigator({
     Home: {
-        screen: Navigator,
-        navigationOptions: {  // 也可以写在组件的static navigationOptions内
+        screen: HomeView,
+        navigationOptions: {
             tabBarLabel: "点餐",
             tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
         }
@@ -171,7 +130,50 @@ const Tabs = TabNavigator({
     },
 });
 
-AppRegistry.registerComponent("MainComponent", () => Tabs);
+const Navigator = StackNavigator({
+    WelcomeView: {
+        screen: WelcomeView
+    },
+    LoginView: {
+        screen: LoginView
+    },
+    HomeView: {
+        screen: HomeView
+    },
+    GoodsView: {
+        screen: GoodsView
+    },
+    OrderView: {
+        screen: OrderView
+    },
+    GoodsListView: {
+        screen: GoodsListView
+    },
+    RequireGoodsOrderDetailView: {
+        screen: RequireGoodsOrderDetailView
+    },
+    ForgetPasswordView: {
+        screen: ForgetPasswordView
+    },
+    RegisterView: {
+        screen: RegisterView
+    },
+    InputVerificationCodeView: {
+        screen: InputVerificationCodeView
+    },
+    SetNewPasswordView: {
+        screen: SetNewPasswordView
+    },
+    Tab: {
+        screen: Tab
+    }
+}, {
+    initialRouteName: "LoginView",
+    mode: "card",
+    headerMode: "screen",
+});
+
+AppRegistry.registerComponent("MainComponent", () => Navigator);
 
 const styles = StyleSheet.create({
     swiperItem: {

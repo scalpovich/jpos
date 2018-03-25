@@ -121,7 +121,7 @@ export default class LoginView extends Component {
         }
         AuthUtils.login(loginName, password, Constants.LOGIN_MODE_USER).then((result) => {
             this["refs"]["loadingToastComponent"]["hide"]();
-            this["props"]["navigation"]["navigate"]("HomeView");
+            this["props"]["navigation"]["navigate"]("Tab");
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["message"]);
