@@ -2,16 +2,7 @@
  * Created by liuyandong on 2017/10/28.
  */
 import React, {Component} from "react";
-import {
-    Dimensions,
-    Image,
-    PixelRatio,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from "react-native";
+import {Dimensions, Image, PixelRatio, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
@@ -27,6 +18,12 @@ export default class SetNewPasswordView extends Component {
     static navigationOptions = {
         header: null
     };
+
+    constructor(props) {
+        super(props);
+        this.password = "";
+        this.confirmPassword = "";
+    }
 
     back() {
         this["props"]["navigation"]["goBack"]();
@@ -52,10 +49,10 @@ export default class SetNewPasswordView extends Component {
                         <Text style={{color: "black", fontSize: 25}}>请设置新密码</Text>
                     </View>
                     <View style={styles.passwordView}>
-                        <TextInput style={styles.password} underlineColorAndroid="transparent" autoFocus={true} secureTextEntry={true} onChangeText={(text) => this.setState({loginName: text})} placeholder="请输入密码"></TextInput>
+                        <TextInput style={styles.password} underlineColorAndroid="transparent" autoFocus={true} secureTextEntry={true} onChangeText={(text) => {this.password = text;}} placeholder="请输入密码"></TextInput>
                     </View>
                     <View style={styles.confirmPasswordView}>
-                        <TextInput style={styles.confirmPassword} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => this.setState({password: text})} placeholder="请再次输入密码"></TextInput>
+                        <TextInput style={styles.confirmPassword} underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={(text) => {this.confirmPassword = text}} placeholder="请再次输入密码"></TextInput>
                     </View>
                     <TouchableOpacity style={[styles.nextStepButton, styles.justifyContentCenter, styles.alignItemsCenter]}
                                       onPress={this.handleNextStepOnPress.bind(this)}>
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
     password: {
         height: 40,
         width: width - 80,
-        fontSize: 18
+        fontSize: 16
     },
     confirmPasswordView: {
         marginTop: 20,
@@ -91,7 +88,7 @@ const styles = StyleSheet.create({
     confirmPassword: {
         height: 40,
         width: width - 80,
-        fontSize: 18
+        fontSize: 16
     },
     justifyContentCenter: {
         justifyContent: "center"

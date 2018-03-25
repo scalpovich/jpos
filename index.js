@@ -121,7 +121,7 @@ const Navigator = StackNavigator({
 
 const Tabs = TabNavigator({
     Home: {
-        screen: LoginView,
+        screen: Navigator,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: "点餐",
             tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),

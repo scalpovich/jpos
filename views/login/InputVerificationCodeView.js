@@ -2,22 +2,11 @@
  * Created by liuyandong on 2017/10/28.
  */
 import React, {Component} from "react";
-import {
-    Dimensions,
-    Image,
-    PixelRatio,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from "react-native";
+import {Dimensions, Image, PixelRatio, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import SetNewPasswordView from "./SetNewPasswordView";
-import WebUtils from "../../utils/WebUtils";
-import Constants from "../../constants/Constants";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -32,15 +21,11 @@ export default class InputVerificationCodeView extends Component {
 
     constructor(props) {
         super(props);
-        this["state"] = {verificationCode: ["", "", "", ""]};
+        this["verificationCode"] = "";
     }
 
     back() {
         this["props"]["navigation"]["goBack"]();
-    }
-
-    handleVerificationCodeOnChangeText(text) {
-        this["setState"]({verificationCode: text});
     }
 
     handleNextStepOnPress() {
@@ -65,12 +50,11 @@ export default class InputVerificationCodeView extends Component {
                                    underlineColorAndroid="transparent"
                                    autoFocus={true}
                                    keyboardType="numeric"
-                                   onChangeText={this.handleVerificationCodeOnChangeText.bind(this)}
+                                   onChangeText={(text) => {this.verificationCode = text}}
                                    placeholder="请输入短信验证码">
                         </TextInput>
                     </View>
-                    <TouchableOpacity style={[styles.nextStepButton, styles.justifyContentCenter, styles.alignItemsCenter]}
-                                      onPress={this.handleNextStepOnPress.bind(this)}>
+                    <TouchableOpacity style={[styles.nextStepButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.handleNextStepOnPress.bind(this)}>
                         <Text style={{color: "#FFFFFF", fontSize: 18}}>下一步</Text>
                     </TouchableOpacity>
                 </View>
@@ -94,7 +78,7 @@ const styles = StyleSheet.create({
     verificationCodeInput: {
         height: 40,
         width: width - 80,
-        fontSize: 18
+        fontSize: 16
     },
     justifyContentCenter: {
         justifyContent: "center"

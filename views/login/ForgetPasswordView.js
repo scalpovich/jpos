@@ -2,23 +2,11 @@
  * Created by liuyandong on 2017/10/28.
  */
 import React, {Component} from "react";
-import {
-    Dimensions,
-    PixelRatio,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Image
-} from "react-native";
+import {Dimensions, Image, PixelRatio, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import InputVerificationCodeView from "./InputVerificationCodeView";
-import WebUtils from "../../utils/WebUtils";
-import CommonUtils from "../../utils/CommonUtils";
-import Constants from "../../constants/Constants";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -33,20 +21,16 @@ export default class ForgetPasswordView extends Component {
 
     constructor(props) {
         super(props);
-        this["state"] = {phoneNumber: ""};
+        this["phoneNumber"] = "";
     }
 
     back() {
         this["props"]["navigation"]["goBack"]();
     }
 
-    handlePhoneNumberOnChangeText(text) {
-        this.setState({phoneNumber: text});
-    }
-
     handleNextStepOnPress() {
         var pattern = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
-        let phoneNumber = this["state"]["phoneNumber"];
+        let phoneNumber = this["phoneNumber"];
         if (!pattern.test(phoneNumber)) {
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "请输入正确的手机号码！");
             return;
@@ -73,7 +57,7 @@ export default class ForgetPasswordView extends Component {
                                    underlineColorAndroid="transparent"
                                    autoFocus={true}
                                    keyboardType="numeric"
-                                   onChangeText={this.handlePhoneNumberOnChangeText.bind(this)}
+                                   onChangeText={(text) => {this.phoneNumber = text;}}
                                    placeholder="请输入手机号码">
                         </TextInput>
                     </View>
@@ -102,7 +86,7 @@ const styles = StyleSheet.create({
     phoneNumberInput: {
         height: 40,
         width: width - 80,
-        fontSize: 18
+        fontSize: 16
     },
     justifyContentCenter: {
         justifyContent: "center"

@@ -2,13 +2,7 @@
  * Created by liuyandong on 2018/3/25.
  */
 import React, {Component} from "react";
-import {
-    View,
-    TouchableOpacity,
-    Text, StyleSheet,
-    Dimensions,
-    PixelRatio
-} from "react-native";
+import {Dimensions, PixelRatio, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import AuthUtils from "../../utils/AuthUtils";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
 import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
