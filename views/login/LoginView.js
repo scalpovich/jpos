@@ -105,7 +105,7 @@ export default class LoginView extends Component {
     }
 
     login() {
-        /*this["refs"]["loadingToastComponent"]["show"]("登录中...");
+        this["refs"]["loadingToastComponent"]["show"]("登录中...");
         var loginName = this["loginName"];
         if (!loginName) {
             this["refs"]["loadingToastComponent"]["hide"]();
@@ -125,8 +125,7 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["message"]);
-        });*/
-        this["props"]["navigation"]["navigate"]("AgreementView");
+        });
     }
 
     initPos() {
