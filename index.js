@@ -18,6 +18,7 @@ import {
 import Swiper from "react-native-swiper";
 import LoginView from "./views/login/LoginView";
 import {StackNavigator, TabNavigator} from "react-navigation";
+import CardStackStyleInterpolator from "react-navigation/src/views/CardStack/CardStackStyleInterpolator";
 import WelcomeView from "./views/welcome/WelcomeView";
 import HomeView from "./views/main/HomeView";
 import GoodsView from "./views/goods/GoodsView";
@@ -29,54 +30,13 @@ import RegisterView from "./views/login/RegisterView";
 import InputVerificationCodeView from "./views/login/InputVerificationCodeView";
 import SetNewPasswordView from "./views/login/SetNewPasswordView";
 import PersonalView from "./views/personal/PersonalView";
+import AgreementView from "./views/agreement/AgreementView";
 
 const window = Dimensions.get("window");
 const width = window.width;
 const height = window.height;
 const pixelWidth = 1 / PixelRatio.get();
 const statusBarHeight = StatusBar.currentHeight;
-
-class MainComponent extends Component {
-    static navigationOptions = {
-        header: null
-    }
-
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidMount() {
-
-    }
-
-    login() {
-        this["props"]["navigation"]["navigate"]("HomeThree");
-    }
-
-    render() {
-        return (
-            <View style={{flex: 1}}>
-                {Platform.OS == "android" ? <StatusBar backgroundColor="#41D09B"></StatusBar> : <View style={{height: 20, backgroundColor: "#41D09B"}}></View>}
-                <Swiper loop={true} autoplay={true} style={{height: 200}}>
-                    <View style={styles.swiperItem}>
-                        <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://ubmcmm.baidustatic.com/media/v1/0f0005DL5ZsPBJreEWzsa0.jpg"}}></Image>
-                    </View>
-                    <View style={{height: 150, backgroundColor: "yellow"}}>
-                        <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://ubmcmm.baidustatic.com/media/v1/0f000ckyT6Y8ZgUHgku-06.jpg"}}></Image>
-                    </View>
-                    <View style={{height: 150, backgroundColor: "green"}}>
-                        <Image resizeMode="stretch" style={{flex: 1}} source={{uri: "http://image.beekka.com/blog/2015/bg2015031302.jpg"}}></Image>
-                    </View>
-                </Swiper>
-                <View style={{height: height - 150 - statusBarHeight, justifyContent: "center", alignItems: "center"}}>
-                    <TouchableOpacity style={styles.loginButton} onPress={this.login.bind(this)}>
-                        <Text style={{color: "#FFFFFF", fontSize: 18}}>登录</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    }
-}
 
 const Tab = TabNavigator({
     Home: {
@@ -130,6 +90,16 @@ const Tab = TabNavigator({
     },
 });
 
+const TransitionConfiguration = () => ({
+    screenInterpolator: (sceneProps) => {
+        const { scene } = sceneProps;
+        const { route } = scene;
+        const params = route.params || {};
+        const transition = params.transition || "forHorizontal";
+        return CardStackStyleInterpolator[transition](sceneProps);
+    },
+});
+
 const Navigator = StackNavigator({
     WelcomeView: {
         screen: WelcomeView
@@ -166,11 +136,15 @@ const Navigator = StackNavigator({
     },
     Tab: {
         screen: Tab
+    },
+    AgreementView: {
+        screen: AgreementView
     }
 }, {
     initialRouteName: "LoginView",
     mode: "card",
     headerMode: "screen",
+    transitionConfig: TransitionConfiguration
 });
 
 AppRegistry.registerComponent("MainComponent", () => Navigator);
