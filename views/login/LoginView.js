@@ -27,6 +27,7 @@ import ForgetPasswordView from "./ForgetPasswordView";
 import RegisterView from "./RegisterView";
 import Constants from "../../constants/Constants";
 import ApplicationHandler from "../../utils/ApplicationHandler";
+import BindElemeView from "../eleme/BindElemeView";
 
 var window = Dimensions.get("window");
 var width = window.width;
@@ -125,30 +126,6 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["message"]);
-        });
-    }
-
-    initPos() {
-        this["refs"]["loadingToastComponent"]["show"]("登录中...");
-        var loginName = this["loginName"];
-        if (!loginName) {
-            this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "用户名不能为空！");
-            return;
-        }
-
-        var password = this["password"];
-        if (!password) {
-            this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", "密码不能为空！");
-            return;
-        }
-        ApplicationHandler.initPos(loginName, password).then((result) => {
-            this["refs"]["loadingToastComponent"]["hide"]();
-            this["props"]["navigation"]["navigate"]("HomeView");
-        }).catch((error) => {
-            this["refs"]["loadingToastComponent"]["hide"]();
-            this["refs"]["alertDialogComponent"]["alert"]("提示", "确定", error["error"]);
         });
     }
 

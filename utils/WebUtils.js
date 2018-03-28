@@ -4,7 +4,7 @@
 import Constants from "../constants/Constants"
 import {NativeModules} from "react-native";
 
-const APP_API_SERVICE_URL = "http://192.168.31.200:8989";
+const APP_API_SERVICE_URL = "http://192.168.31.200:8080/posapi";
 export default class WebUtils {
     static doGetAsync(serviceName, controllerName, actionName, accessToken, requestParameters) {
         var options = {
@@ -20,7 +20,7 @@ export default class WebUtils {
         }
         if (requestParameters) {
             for (var key in requestParameters) {
-                requestParameterPairs.push(key + "=" + JSON.stringify(requestParameters[key]));
+                requestParameterPairs.push(key + "=" + requestParameters[key]);
             }
         }
         var url = APP_API_SERVICE_URL + Constants.PROXY_DO_GET_URI + "?" + requestParameterPairs.join("&");

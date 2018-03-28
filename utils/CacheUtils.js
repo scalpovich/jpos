@@ -14,7 +14,13 @@ export default class CacheUtils {
     }
 
     static obtainUserInfo() {
-        return NativeModules["CustomNativeModule"]["obtainUserInfo"]();
+        return new Promise((resolve, reject) => {
+            return NativeModules["CustomNativeModule"]["obtainUserInfo"]((userInfo) => {
+                resolve(userInfo);
+            }, (error) => {
+                reject(error);
+            });
+        });
     }
 
     static obtainLastKnownLocation() {

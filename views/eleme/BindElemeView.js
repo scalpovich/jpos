@@ -2,12 +2,13 @@
  * Created by liuyandong on 2018/3/26.
  */
 import React, {Component} from "react";
-import {StyleSheet, View, WebView, Image} from "react-native";
+import {StyleSheet, View, WebView, Image, InteractionManager, NativeModules} from "react-native";
 import HeaderComponent from "../../commonComponent/HeaderComponent";
 import WebUtils from "../../utils/WebUtils";
 import CacheUtils from "../../utils/CacheUtils";
 import CommonUtils from "../../utils/CommonUtils";
 import AlertDialogComponent from "../../commonComponent/AlertDialogComponent";
+import LoadingToastComponent from "../../commonComponent/LoadingToastComponent";
 
 const leftButton = <Image source={require("../../resources/images/common/back.png")}></Image>;
 export default class BindElemeView extends Component {
@@ -15,32 +16,40 @@ export default class BindElemeView extends Component {
         header: null
     };
 
+    back() {
+        this["props"]["navigation"]["goBack"]();
+    }
+
     constructor(props) {
         super(props);
         this["state"] = {loaded: false, uri: null};
     }
 
-    componentDidMount() {
-        var userInfo = CacheUtils.obtainUserInfo();
+    async handleComponentDidMount() {
+        let userInfo = await CacheUtils.obtainUserInfo();
         if (!userInfo) {
             return;
         }
-        WebUtils.doGetAsync(CommonUtils.getServiceName(userInfo["business"]), "eleme", "tenantAuthorize", {tenantId: userInfo["tenantId"], branchId: userInfo["branchId"], userId: userInfo["userId"]}).then((result) => {
+        this["refs"]["loadingToastComponent"].show("加载中...");
+        WebUtils.doGetAsync(CommonUtils.getServiceName(userInfo["business"]), "eleme", "tenantAuthorize", userInfo["accessToken"], {tenantId: userInfo["tenantId"], branchId: userInfo["branchId"], userId: userInfo["userId"]}).then((result) => {
             if (!result["successful"]) {
                 return Promise.reject({code: "", message: result["error"]});
             }
-            this["setState"]({uri: result["data"]});
+            this["setState"]({loaded: true, uri: result["data"]});
         }).catch((error) => {
+            this["refs"]["loadingToastComponent"].hide();
             this["refs"]["alertDialogComponent"].alert("提示", "确定", error["message"]);
         });
     }
 
-    back() {
-        this["props"]["navigation"]["goBack"]();
+    async componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.handleComponentDidMount();
+        });
     }
 
-    renderLoading() {
-        console.log("renderLoading")
+    handleOnLoad() {
+        this["refs"]["loadingToastComponent"].hide();
     }
 
     render() {
@@ -53,9 +62,10 @@ export default class BindElemeView extends Component {
                                  rightButton={null}>
                 </HeaderComponent>
                 {
-                    this.state.loaded ? <WebView source={{uri: this["state"]["uri"]}} startInLoadingState={true} javaScriptEnabled={true} renderLoading={this.renderLoading.bind(this)}></WebView> : null
+                    this.state.loaded ? <WebView source={{uri: this["state"]["uri"]}} onLoad={this.handleOnLoad.bind(this)} javaScriptEnabled={true}></WebView> : null
                 }
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
+                <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
             </View>
         );
     }
