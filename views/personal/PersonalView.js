@@ -18,6 +18,7 @@ export default class PersonalView extends Component {
 
     constructor(props) {
         super(props);
+
     }
 
     logout() {
@@ -32,8 +33,10 @@ export default class PersonalView extends Component {
 
     render() {
         return (
-            <View style={[styles.container, styles.alignItemsCenter]}>
-                <View style={{backgroundColor: "#41D09B", height: 140}}></View>
+            <View style={[styles.container]}>
+                <View style={[{height: 56}, styles.justifyContentCenter]}>
+                    <Text style={{fontSize: 25, fontWeight: "bold", color: "black", marginLeft: 16}}>刘艳东</Text>
+                </View>
                 <TouchableOpacity style={[styles.logoutButton, styles.justifyContentCenter, styles.alignItemsCenter]} onPress={this.logout.bind(this)}>
                     <Text style={{color: "#FFFFFF", fontSize: 18}}>退出</Text>
                 </TouchableOpacity>
