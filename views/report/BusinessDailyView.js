@@ -21,7 +21,7 @@ export default class BusinessDailyView extends Component {
     };
 
     back() {
-        this["refs"]["webView"]["postMessage"]({aa: "aaa"});
+        this["refs"]["webView"]["postMessage"](width * PixelRatio.get());
     }
 
     constructor(props) {
