@@ -33,6 +33,7 @@ import PersonalView from "./views/personal/PersonalView";
 import AgreementView from "./views/agreement/AgreementView";
 import BindElemeView from "./views/eleme/BindElemeView";
 import BindMeiTuanView from "./views/meituan/BindMeiTuanView";
+import BusinessDailyView from "./views/report/BusinessDailyView";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -63,7 +64,7 @@ const Tab = TabNavigator({
         }
     },
     Personal: {
-        screen: PersonalView,
+        screen: BusinessDailyView,
         navigationOptions: {
             tabBarLabel: "我的",
             tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
@@ -147,6 +148,9 @@ const Navigator = StackNavigator({
     },
     BindMeiTuanView: {
         screen: BindMeiTuanView
+    },
+    BusinessDailyView: {
+        screen: BusinessDailyView
     }
 }, {
     initialRouteName: "LoginView",
