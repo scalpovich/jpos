@@ -38,7 +38,7 @@ export default class BusinessDailyView extends Component {
                                  leftButton={leftButton}
                                  rightButton={null}>
                 </HeaderComponent>
-                <WebView ref="webView" source={{uri: "http://192.168.31.200:8080/o2o/login/login?tenantId=1&branchId=1&type=2"}}></WebView>
+                <WebView ref="webView" source={{uri: "http://192.168.31.200:8080/o2o/report/index"}}></WebView>
                 <AlertDialogComponent ref="alertDialogComponent"></AlertDialogComponent>
                 <LoadingToastComponent ref="loadingToastComponent"></LoadingToastComponent>
             </View>
