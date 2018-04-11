@@ -34,6 +34,7 @@ import AgreementView from "./views/agreement/AgreementView";
 import BindElemeView from "./views/eleme/BindElemeView";
 import BindMeiTuanView from "./views/meituan/BindMeiTuanView";
 import BusinessDailyView from "./views/report/BusinessDailyView";
+import BranchListView from "./views/branch/BranchListView";
 
 const window = Dimensions.get("window");
 const width = window.width;
@@ -151,9 +152,12 @@ const Navigator = StackNavigator({
     },
     BusinessDailyView: {
         screen: BusinessDailyView
+    },
+    BranchListView: {
+        screen: BranchListView
     }
 }, {
-    initialRouteName: "LoginView",
+    initialRouteName: "BranchListView",
     mode: "card",
     headerMode: "screen",
     transitionConfig: TransitionConfiguration

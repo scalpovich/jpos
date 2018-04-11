@@ -31,7 +31,7 @@ export default class BindMeiTuanView extends Component {
             return;
         }
         this["refs"]["loadingToastComponent"].show("加载中...");
-        WebUtils.doGetAsync(CommonUtils.getServiceName(userInfo["business"]), "meiTuan", "generateBindingStoreLink", userInfo["accessToken"], {tenantId: userInfo["tenantId"], branchId: userInfo["branchId"], businessId: 2}).then((result) => {
+        WebUtils.doGet(CommonUtils.getServiceName(userInfo["business"]), "meiTuan", "generateBindingStoreLink", userInfo["accessToken"], {tenantId: userInfo["tenantId"], branchId: userInfo["branchId"], businessId: 2}).then((result) => {
             if (!result["successful"]) {
                 return Promise.reject({code: "", message: result["error"]});
             }

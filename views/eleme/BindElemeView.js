@@ -31,7 +31,7 @@ export default class BindElemeView extends Component {
             return;
         }
         this["refs"]["loadingToastComponent"].show("加载中...");
-        WebUtils.doGetAsync(CommonUtils.getServiceName(userInfo["business"]), "eleme", "tenantAuthorize", userInfo["accessToken"], {tenantId: userInfo["tenantId"], branchId: userInfo["branchId"], userId: userInfo["userId"]}).then((result) => {
+        WebUtils.doGet(CommonUtils.getServiceName(userInfo["business"]), "eleme", "tenantAuthorize", userInfo["accessToken"], {tenantId: userInfo["tenantId"], branchId: userInfo["branchId"], userId: userInfo["userId"]}).then((result) => {
             if (!result["successful"]) {
                 return Promise.reject({code: "", message: result["error"]});
             }

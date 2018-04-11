@@ -47,7 +47,7 @@ export default class LoginView extends Component {
     handlePaidButtonOnPress() {
         var data = null;
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        CacheUtils.obtainUserInfo().then((userInfo) => {
+        /*CacheUtils.obtainUserInfo().then((userInfo) => {
             var weiXinPayUnifiedOrderRequestParameters = {
                 tenantId: 7,
                 branchId: 7,
@@ -102,7 +102,7 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        });
+        });*/
     }
 
     login() {
@@ -146,7 +146,7 @@ export default class LoginView extends Component {
             appId: Constants.WEI_XIN_OPEN_PLATFORM_APP_ID,
             code: code
         };
-        WebUtils.doGetAsync(Constants.SERVICE_NAME_PLATFORM, "weiXin", "obtainOAuthAccessToken", null, obtainOAuthAccessTokenRequestParameters).then((obtainOAuthAccessTokenResult) => {
+        WebUtils.doGet(Constants.SERVICE_NAME_PLATFORM, "weiXin", "obtainOAuthAccessToken", null, obtainOAuthAccessTokenRequestParameters).then((obtainOAuthAccessTokenResult) => {
             if (!obtainOAuthAccessTokenResult["successful"]) {
                 return CommonUtils.reject(obtainOAuthAccessTokenResult["error"]);
             }
@@ -219,7 +219,7 @@ export default class LoginView extends Component {
             userId: 1
         };
         this["refs"]["loadingToastComponent"]["show"]("加载中...");
-        WebUtils.doGet("https://check-local.smartpos.top/zd1/ct2/alipay/alipayTradeAppPay", alipayTradeAppPayRequestParameters).then((alipayTradeAppPayResult) => {
+        /*WebUtils.doGet("https://check-local.smartpos.top/zd1/ct2/alipay/alipayTradeAppPay", alipayTradeAppPayRequestParameters).then((alipayTradeAppPayResult) => {
             if (!alipayTradeAppPayResult["successful"]) {
                 return CommonUtils.reject(alipayTradeAppPayResult["error"]);
             }
@@ -229,7 +229,7 @@ export default class LoginView extends Component {
         }).catch((error) => {
             this["refs"]["loadingToastComponent"]["hide"]();
             this["refs"]["alertDialogComponent"]["alert"]("确定", error["code"]);
-        })
+        });*/
     }
 
     render() {
