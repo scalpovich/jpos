@@ -3,19 +3,9 @@
  */
 import React, {Component} from "react";
 import {
-    AppRegistry,
-    View,
-    Text,
-    Image,
-    Dimensions,
-    StatusBar,
-    FlatList,
-    PixelRatio,
-    Platform,
-    TouchableOpacity,
-    StyleSheet
+    AppRegistry, Dimensions, Image, InteractionManager, PixelRatio, StatusBar, StyleSheet,
+    View
 } from "react-native";
-import Swiper from "react-native-swiper";
 import LoginView from "./views/login/LoginView";
 import {StackNavigator, TabNavigator} from "react-navigation";
 import CardStackStyleInterpolator from "react-navigation/src/views/CardStack/CardStackStyleInterpolator";
@@ -29,7 +19,6 @@ import ForgetPasswordView from "./views/login/ForgetPasswordView";
 import RegisterView from "./views/login/RegisterView";
 import InputVerificationCodeView from "./views/login/InputVerificationCodeView";
 import SetNewPasswordView from "./views/login/SetNewPasswordView";
-import PersonalView from "./views/personal/PersonalView";
 import AgreementView from "./views/agreement/AgreementView";
 import BindElemeView from "./views/eleme/BindElemeView";
 import BindMeiTuanView from "./views/meituan/BindMeiTuanView";
@@ -47,28 +36,28 @@ const Tab = TabNavigator({
         screen: HomeView,
         navigationOptions: {
             tabBarLabel: "点餐",
-            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}></Image>),
         }
     },
     Bill: {
         screen: LoginView,
         navigationOptions: {
             tabBarLabel: "订单",
-            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}></Image>),
         }
     },
     AA: {
         screen: LoginView,
         navigationOptions: {
             tabBarLabel: "菜品",
-            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}></Image>),
         }
     },
     Personal: {
         screen: BusinessDailyView,
         navigationOptions: {
             tabBarLabel: "我的",
-            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}/>),
+            tabBarIcon: ({tintColor}) => (<Image source={require("./resources/images/common/order.png")} style={[{tintColor: tintColor}, {height: 25, width: 25}]}></Image>),
         }
     }
 }, {
@@ -104,66 +93,72 @@ const TransitionConfiguration = () => ({
     },
 });
 
-const Navigator = StackNavigator({
-    WelcomeView: {
-        screen: WelcomeView
-    },
-    LoginView: {
-        screen: LoginView
-    },
-    HomeView: {
-        screen: HomeView
-    },
-    GoodsView: {
-        screen: GoodsView
-    },
-    OrderView: {
-        screen: OrderView
-    },
-    GoodsListView: {
-        screen: GoodsListView
-    },
-    RequireGoodsOrderDetailView: {
-        screen: RequireGoodsOrderDetailView
-    },
-    ForgetPasswordView: {
-        screen: ForgetPasswordView
-    },
-    RegisterView: {
-        screen: RegisterView
-    },
-    InputVerificationCodeView: {
-        screen: InputVerificationCodeView
-    },
-    SetNewPasswordView: {
-        screen: SetNewPasswordView
-    },
-    Tab: {
-        screen: Tab
-    },
-    AgreementView: {
-        screen: AgreementView
-    },
-    BindElemeView: {
-        screen: BindElemeView
-    },
-    BindMeiTuanView: {
-        screen: BindMeiTuanView
-    },
-    BusinessDailyView: {
-        screen: BusinessDailyView
-    },
-    BranchListView: {
-        screen: BranchListView
+export default class MainComponent extends Component {
+    render() {
+        let initialRouteName = this["props"]["isLogin"] ? "Tab" : "LoginView";
+        let Navigator = StackNavigator({
+            WelcomeView: {
+                screen: WelcomeView
+            },
+            LoginView: {
+                screen: LoginView
+            },
+            HomeView: {
+                screen: HomeView
+            },
+            GoodsView: {
+                screen: GoodsView
+            },
+            OrderView: {
+                screen: OrderView
+            },
+            GoodsListView: {
+                screen: GoodsListView
+            },
+            RequireGoodsOrderDetailView: {
+                screen: RequireGoodsOrderDetailView
+            },
+            ForgetPasswordView: {
+                screen: ForgetPasswordView
+            },
+            RegisterView: {
+                screen: RegisterView
+            },
+            InputVerificationCodeView: {
+                screen: InputVerificationCodeView
+            },
+            SetNewPasswordView: {
+                screen: SetNewPasswordView
+            },
+            Tab: {
+                screen: Tab
+            },
+            AgreementView: {
+                screen: AgreementView
+            },
+            BindElemeView: {
+                screen: BindElemeView
+            },
+            BindMeiTuanView: {
+                screen: BindMeiTuanView
+            },
+            BusinessDailyView: {
+                screen: BusinessDailyView
+            },
+            BranchListView: {
+                screen: BranchListView
+            }
+        }, {
+            initialRouteName: initialRouteName,
+            mode: "card",
+            headerMode: "screen",
+            transitionConfig: TransitionConfiguration
+        });
+        return <Navigator></Navigator>
     }
-}, {
-    initialRouteName: "BranchListView",
-    mode: "card",
-    headerMode: "screen",
-    transitionConfig: TransitionConfiguration
-});
+}
 
-AppRegistry.registerComponent("MainComponent", () => Navigator);
+AppRegistry.registerComponent("MainComponent", () => MainComponent);
 
 const styles = StyleSheet.create({
     swiperItem: {
